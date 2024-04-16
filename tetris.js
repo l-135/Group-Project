@@ -7,7 +7,7 @@ function createGrid(board){
     for(let j = 0; j < 10; j++){
       const cell = document.createElement('div');
       cell.classList.add('cell');
-      board.appendchild('cell')
+      board.appendChild('cell')
     }
   }
 }
