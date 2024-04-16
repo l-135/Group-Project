@@ -11,5 +11,5 @@ function createGrid(board){
     }
   }
 }
-creatgrid(board1);
+createGrid(board1);
 createGrid(board2);
