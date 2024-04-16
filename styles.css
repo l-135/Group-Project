@@ -7,3 +7,18 @@
   box-sizing: border-box;
   text-align: center;
 }
+.board{
+  width: 254px;
+  height: 504px;
+  border: 2px solid black;
+  margin: 0 auto;
+  box-sizing: border-box;
+  text-align: center;
+}
+.grid{
+  border: 1px grey;
+  width: 23px;
+  height: 23px;
+  display: inline;
+  float: left;
+}
