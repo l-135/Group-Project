@@ -32,3 +32,6 @@ createGrid(board1);
 createGrid(board2);
 setArray(tetrisArray1);
 setArray(tetrisArray2);
+//for viewing array contents using inspect element
+console.log(tetrisArray1);
+console.log(tetrisArray2);
