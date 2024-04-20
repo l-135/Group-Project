@@ -20,6 +20,7 @@ function createGrid(surface){
 //creates 2d array 
 function setArray(boardArray){
   for(let i=0; i < row; i++){
+    boardArray[i] = [];
     for(let j = 0; j < col; j++){
       //false = empty cell
       boardArray[i][j] = false;
