@@ -33,7 +33,7 @@ function createBlock(surface, shape){
   block.forEach(([row, col]) => {
     const cellId = `${row}-${col}`;
     const cell = document.getElementById(cellId);
-    cell.classList.remove('cell');
+    cell.classList.remove('grid');
     cell.classList.add('block');
   });
 }
