@@ -16,7 +16,15 @@
   text-align: center;
 }
 .grid{
-  border: 1px solid red;
+  border: 1px solid grey;
+  width: 23px;
+  height: 23px;
+  display: inline;
+  float: left;
+}
+.block{
+  border: 1px solid grey;
+  background-color: brown;
   width: 23px;
   height: 23px;
   display: inline;
