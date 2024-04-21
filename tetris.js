@@ -28,6 +28,15 @@ function setArray(boardArray){
   }
 }
 
+//test function for displaying block on grid
+function createBlock(surface, shape){
+  block.forEach(([row, col]) => {
+    const cellId = `${row}-${col}`;
+    const cell = document.getElementById(cellId);
+    cell.classList.add('block');
+  });
+}
+
 createGrid(board1);
 createGrid(board2);
 setArray(tetrisArray1);
@@ -35,3 +44,9 @@ setArray(tetrisArray2);
 //for viewing array contents using inspect element
 console.log(tetrisArray1);
 console.log(tetrisArray2);
+//test block tetrimino
+const block = [
+  [0, 4], [0, 5],
+  [1, 4], [1, 5]
+];
+createBlock(board1, block)
