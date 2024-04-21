@@ -33,6 +33,7 @@ function createBlock(surface, shape){
   block.forEach(([row, col]) => {
     const cellId = `${row}-${col}`;
     const cell = document.getElementById(cellId);
+    cell.classList.remove('cell');
     cell.classList.add('block');
   });
 }
@@ -49,4 +50,4 @@ const block = [
   [0, 4], [0, 5],
   [1, 4], [1, 5]
 ];
-createBlock(board1, block)
+createBlock(board1, block);
