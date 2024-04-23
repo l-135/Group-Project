@@ -30,7 +30,7 @@ function setArray(boardArray){
 
 //test function for displaying block on grid
 function createBlock(surface, shape){
-  block.forEach(([row, col]) => {
+  shape.forEach(([row, col]) => {
     const cellId = `${row}-${col}`;
     const cell = document.getElementById(cellId);
     cell.classList.remove('grid');
