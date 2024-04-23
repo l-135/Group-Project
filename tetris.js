@@ -59,6 +59,24 @@ const tblock = [
     [1, 4],
     [1, 5]
 ];
+const iblock=[
+    [0, 3],
+    [0, 4],
+    [0, 5],
+    [0, 6]
+];
+const jblock = [
+    [0, 3],
+    [1, 3],
+    [1, 4],
+    [1, 5]
+];
+const zblock = [
+    [0,4],
+    [0,5],
+    [1,3],
+    [1,4]
+];
 
 createGrid(board1);
 createGrid(board2);
@@ -76,3 +94,6 @@ createBlock(board1, block);
 createBlock(board1, lblock);
 createBlock(board1, sblock);
 createBlock(board2, tblock);
+createBlock(board2, iblock);
+createBlock(board2, jblock);
+createBlock(board2, zblock);
