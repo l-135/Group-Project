@@ -52,6 +52,14 @@ const sblock = [
     [1,4],
 ];
 
+//define the t block
+const tblock = [
+    [0, 4],
+    [1, 3],
+    [1, 4],
+    [1, 5]
+];
+
 createGrid(board1);
 createGrid(board2);
 setArray(tetrisArray1);
@@ -65,4 +73,6 @@ const block = [
   [1, 4], [1, 5]
 ];
 createBlock(board1, block);
-createBlock(board1,lblock);
+createBlock(board1, lblock);
+createBlock(board1, sblock);
+createBlock(board2, tblock);
