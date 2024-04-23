@@ -37,6 +37,13 @@ function createBlock(surface, shape){
     cell.classList.add('block');
   });
 }
+//define the l shape block
+const l-block = [
+    [0,4],
+    [1,4],
+    [2,4],
+    [2,5]
+];
 
 createGrid(board1);
 createGrid(board2);
@@ -51,3 +58,4 @@ const block = [
   [1, 4], [1, 5]
 ];
 createBlock(board1, block);
+createBlock(board1,l-block);
