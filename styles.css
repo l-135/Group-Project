@@ -22,7 +22,7 @@
   display: inline;
   float: left;
 }
-.block{
+.oblock{
   border: 1px solid grey;
   background-color: brown;
   width: 23px;
@@ -38,3 +38,32 @@
     display: inline;
     float: left;
 }
+
+.iblock{
+    border: 1px solid grey;
+    background-color: violet;
+    width: 23px;
+    height: 23px;
+    display: inline;
+    float: left;
+}
+
+.jblock{
+    border: 1px solid grey;
+    background-color: red;
+    width: 23px;
+    height: 23px;
+    display: inline;
+    float: left;
+}
+
+.zblock{
+    border: 1px solid grey;
+    background-color: blue;
+    width: 23px;
+    height: 23px;
+    display: inline;
+    float: left;
+}
+
+
