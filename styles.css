@@ -66,4 +66,21 @@
     float: left;
 }
 
+.sblock{
+    border: 1px solid grey;
+    background-color: green;
+    width: 23px;
+    height: 23px;
+    display: inline;
+    float: left;
+}
+
+.tblock{
+    border: 1px solid grey;
+    background-color: magenta;
+    width: 23px;
+    height: 23px;
+    display: inline;
+    float: left;
+}
 
