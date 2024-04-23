@@ -38,7 +38,7 @@ function createBlock(surface, shape){
   });
 }
 //define the l shape block
-const l-block = [
+const lblock = [
     [0,4],
     [1,4],
     [2,4],
@@ -58,4 +58,4 @@ const block = [
   [1, 4], [1, 5]
 ];
 createBlock(board1, block);
-createBlock(board1,l-block);
+createBlock(board1,lblock);
