@@ -44,6 +44,13 @@ const lblock = [
     [2,4],
     [2,5]
 ];
+//define the s block
+const sblock = [
+    [0,4],
+    [0,5],
+    [1,3],
+    [1,4],
+];
 
 createGrid(board1);
 createGrid(board2);
