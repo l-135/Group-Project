@@ -30,3 +30,11 @@
   display: inline;
   float: left;
 }
+.l-block{
+    border: 1px solid grey;
+    background-color: orange;
+    width: 23px;
+    height: 23px;
+    display: inline;
+    float: left;
+}
