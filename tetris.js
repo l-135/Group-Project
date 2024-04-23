@@ -37,6 +37,28 @@ function createBlock(surface, shape){
     cell.classList.add('block');
   });
 }
+
+//Function to move shpe down
+function moveDown(surface,shape,tetrisArray){
+    if (canMoveDown(surface,shape,tetrisArray)){
+        shape.forEach(cell => {
+            cell[0]++;
+        });
+        redrawShape(surface,shape);
+    }
+}
+// Function to check if shape can move down
+function moveDown(surface,shape){
+    return shape.every(([row, col]) => row < row -1 && !document.getElementById('${row + 1 }-${col}').classList.contains('block'));
+}
+
+//Function to redraw shape in new position
+function redrawShape(surface,shape){
+    surface.querySelectorAll('.block').forEach(cell =>{
+        cell.classList.removw('block');
+    });
+    createBlock(surface,shape);
+}
 //define the l shape block
 const lblock = [
     [0,4],
