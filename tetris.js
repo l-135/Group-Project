@@ -126,6 +126,24 @@ function startFalling(surface, shape) {
   return intervalId;
 }
 
+function generateAndDisplayNextBlockPreview(surface) {
+    const nextBlock = generateRandomBlock();
+    const previewContainer = document.getElementById(surface.id.replace('board', 'preview'));
+    
+    // Clear previous preview
+    previewContainer.innerHTML = '';
+    
+    // Create and display the next block preview
+    nextBlock.forEach(([row, col]) => {
+        const cell = document.createElement('div');
+        cell.classList.add('preview-cell');
+        cell.style.gridRow = row + 1;
+        cell.style.gridColumn = col + 1;
+        previewContainer.appendChild(cell);
+    });
+}
+
+
 // Define the Tetris blocks
 const lblock = [
     [0, 4],
@@ -171,6 +189,9 @@ const zblock = [
 
 createGrid(board1);
 createGrid(board2);
+
+generateAndDisplayNextBlockPreview(board1);
+generateAndDisplayNextBlockPreview(board2);
 
 setArray(tetrisArray1);
 setArray(tetrisArray2);
