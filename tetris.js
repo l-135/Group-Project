@@ -69,33 +69,6 @@ function getBlockClass(shape) {
   }
 }
 
-/*function updateAndRedraw(surface, shape) {
-  // Remove the 'block' class from all cells
-  surface.querySelectorAll('.block').forEach(cell => {
-      cell.classList.remove('block');
-  });
-
-  // Update the position of the shape
-  for (let i = 0; i < shape.length; i++) {
-      const cell = shape[i];
-      cell[0]++; // Move the cell down by one row
-      const newRow = cell[0];
-      const newCol = cell[1];
-      
-      // Check if the new position is within the grid bounds
-      if (newRow >= 0 && newRow < row && newCol >= 0 && newCol < col) {
-          // Update the cell's position and redraw it
-          const newCellId = `${newRow}-${newCol}`;
-          const newCell = document.getElementById(newCellId);
-          newCell.classList.add('block');
-      } else {
-          // If the new position is outside the grid bounds, stop the block from moving further
-          clearInterval(surface.getAttribute('data-interval-id'));
-          break;
-      }
-  }
-}*/
-
 function updateAndRedraw(surface, shape) {
     // Check if the new position is within the grid bounds
     const canMove = shape.every(cell => {
@@ -128,8 +101,6 @@ function updateAndRedraw(surface, shape) {
         clearInterval(surface.getAttribute('data-interval-id'));
     }
 }
-
-
 
 function startFalling(surface, shape) {
   // Calculate the initial column position for the block to start in the center
