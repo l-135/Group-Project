@@ -37,12 +37,6 @@
   display: inline-block;
 }
 
-/*.preview-cell {
-  width: 23px;
-  height: 23px; 
-  border: 1px solid grey;
-  display: inline-block; /* Use inline-block to ensure cells are displayed in a grid */
-
 .grid{
   border: 1px solid grey;
   width: 23px;
