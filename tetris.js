@@ -126,35 +126,6 @@ function startFalling(surface, shape) {
   return intervalId;
 }
 
-/*function generateAndDisplayNextBlockPreview(surface) {
-    const nextBlock = generateRandomBlock();
-    const previewContainer = document.getElementById(surface.id.replace('board', 'preview'));
-
-    // Clear previous preview
-    previewContainer.innerHTML = '';
-
-    // Calculate the maximum row and column indices of the next block
-    let maxRow = -1;
-    let maxCol = -1;
-    nextBlock.forEach(([row, col]) => {
-        maxRow = Math.max(maxRow, row);
-        maxCol = Math.max(maxCol, col);
-    });
-
-    // Calculate the offset to center the next block preview within the preview container
-    const offsetX = Math.floor((4 - (maxCol + 1)) / 2);
-    const offsetY = Math.floor((4 - (maxRow + 1)) / 2);
-
-    // Create and display the next block preview
-    nextBlock.forEach(([row, col]) => {
-        const cell = document.createElement('div');
-        cell.classList.add('preview-cell');
-        cell.style.gridRow = row + offsetY + 1;
-        cell.style.gridColumn = col + offsetX + 1;
-        previewContainer.appendChild(cell);
-    });
-}*/
-
 function generateAndDisplayNextBlockPreview(surface) {
     const nextBlock = generateRandomBlock();
     const previewContainer = document.getElementById(surface.id.replace('board', 'preview'));
