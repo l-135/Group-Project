@@ -66,6 +66,8 @@ function getBlockClass(shape) {
       return 'jblock';
   } else if (shape === zblock) {
       return 'zblock';
+  } else if (shape === block) {
+      return 'block';
   }
 }
 

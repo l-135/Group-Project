@@ -107,6 +107,7 @@
 }
 
 /* Define specific block background colors */
+.preview-cell.block { background-color: brown !important; }
 .preview-cell.lblock { background-color: orange !important; }
 .preview-cell.sblock { background-color: green !important; }
 .preview-cell.tblock { background-color: magenta !important; }
