@@ -30,35 +30,77 @@ function setArray(boardArray){
 
 //test function for displaying block on grid
 function createBlock(surface, shape){
-  shape.forEach(([row, col]) => {
+  block.forEach(([row, col]) => {
     const cellId = `${row}-${col}`;
     const cell = document.getElementById(cellId);
     cell.classList.remove('grid');
     cell.classList.add('block');
   });
 }
-
-//Function to move shpe down
-function moveDown(surface,shape,tetrisArray){
-    if (canMoveDown(surface,shape,tetrisArray)){
-        shape.forEach(cell => {
-            cell[0]++;
-        });
-        redrawShape(surface,shape);
-    }
-}
-// Function to check if shape can move down
-function moveDown(surface,shape){
-    return shape.every(([row, col]) => row < row -1 && !document.getElementById('${row + 1 }-${col}').classList.contains('block'));
-}
-
-//Function to redraw shape in new position
-function redrawShape(surface,shape){
-    surface.querySelectorAll('.block').forEach(cell =>{
-        cell.classList.removw('block');
+function redrawShape(surface, shape) {
+    // Remove the 'block' class from all cells
+    surface.querySelectorAll('.block').forEach(cell => {
+        cell.classList.remove('block');
     });
-    createBlock(surface,shape);
+
+    // Add the 'block' class to cells occupied by the falling block
+    shape.forEach(([row, col]) => {
+        const cellId = `${row}-${col}`;
+        const cell = document.getElementById(cellId);
+        cell.classList.add(getBlockClass(shape));
+    });
 }
+
+function updateAndRedraw(surface, shape) {
+  // Remove the 'block' class from all cells
+  surface.querySelectorAll('.block').forEach(cell => {
+      cell.classList.remove('block');
+  });
+// Update the position of the shape
+  for (let i = 0; i < shape.length; i++) {
+      const cell = shape[i];
+      cell[0]++; // Move the cell down by one row
+      const newRow = cell[0];
+      const newCol = cell[1];
+      
+      // Check if the new position is within the grid bounds
+      if (newRow >= 0 && newRow < row && newCol >= 0 && newCol < col) {
+          // Update the cell's position and redraw it
+          const newCellId = `${newRow}-${newCol}`;
+          const newCell = document.getElementById(newCellId);
+          newCell.classList.add('block');
+      } else {
+          // If the new position is outside the grid bounds, stop the block from moving further
+          clearInterval(surface.getAttribute('data-interval-id'));
+          break;
+      }
+  }
+}
+function startFalling(surface, shape) {
+  // Calculate the initial column position for the block to start in the center
+  const initialCol = Math.floor((col - shape[0].length) / 2);
+  
+  // Set the initial row position to 0 (top of the grid)
+  const initialRow = 0;
+
+  // Update the position of each cell in the shape to start at the calculated position
+  shape.forEach(cell => {
+      cell[0] += initialRow;
+      cell[1] += initialCol;
+  });
+
+  // Redraw the shape in the new position
+  redrawShape(surface, shape);
+
+  // Start falling
+  const intervalId = setInterval(() => {
+      updateAndRedraw(surface, shape);
+  }, 1000); // Adjust the interval (in milliseconds) for the speed of falling
+  
+  return intervalId;
+}
+
+
 //define the l shape block
 const lblock = [
     [0,4],
