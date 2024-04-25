@@ -103,27 +103,39 @@ function updateAndRedraw(surface, shape) {
 }
 
 function startFalling(surface, shape) {
-  // Calculate the initial column position for the block to start in the center
-  const initialCol = Math.floor((col - shape[0].length) / 2);
-  
-  // Set the initial row position to 0 (top of the grid)
-  const initialRow = 0;
+    // Calculate the initial column position for the block to start in the middle
+    const initialCol = Math.floor((col - shape[0].length) / 2);
 
-  // Update the position of each cell in the shape to start at the calculated position
-  shape.forEach(cell => {
-      cell[0] += initialRow;
-      cell[1] += initialCol;
-  });
+    // Calculate the initial row position for the block to start at the top
+    const initialRow = 0;
 
-  // Redraw the shape in the new position
-  redrawShape(surface, shape);
+    // Find the topmost row position of the block
+    const topmostRow = Math.min(...shape.map(cell => cell[0]));
 
-  // Start falling
-  const intervalId = setInterval(() => {
-      updateAndRedraw(surface, shape);
-  }, 1000); // Adjust the interval (in milliseconds) for the speed of falling
-  
-  return intervalId;
+    // Calculate the offset for adjusting row positions to start at the top
+    const rowOffset = initialRow - topmostRow;
+
+    // Find the leftmost column position of the block
+    const leftmostCol = Math.min(...shape.map(cell => cell[1]));
+
+    // Calculate the offset for adjusting column positions to center the block
+    const colOffset = initialCol - leftmostCol;
+
+    // Update the position of each cell in the shape to start at the calculated position
+    shape.forEach(cell => {
+        cell[0] += rowOffset; // Adjusting row position to start at the top
+        cell[1] += colOffset; // Adjusting column position to center the block
+    });
+
+    // Redraw the shape in the new position
+    redrawShape(surface, shape);
+
+    // Start falling
+    const intervalId = setInterval(() => {
+        updateAndRedraw(surface, shape);
+    }, 1000); // Adjust the interval (in milliseconds) for the speed of falling
+
+    return intervalId;
 }
 
 function generateAndDisplayNextBlockPreview(surface) {
@@ -155,9 +167,6 @@ function generateAndDisplayNextBlockPreview(surface) {
         previewContainer.appendChild(cell);
     });
 }
-
-
-
 
 // Define the Tetris blocks
 const lblock = [
