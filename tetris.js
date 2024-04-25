@@ -146,18 +146,29 @@ createGrid(board1);
 createGrid(board2);
 setArray(tetrisArray1);
 setArray(tetrisArray2);
+
+function generateRandomBlock() {
+  const blocks = [lblock, sblock, tblock, iblock, jblock, zblock];
+  const randomIndex = Math.floor(Math.random() * blocks.length);
+  return blocks[randomIndex];
+}
+// Function to add a block on the specified grid
+function addBlockOnGrid(surface, block) {
+    const intervalId = startFalling(surface, block);
+    surface.setAttribute('data-interval-id', intervalId);
+    createBlock(surface, block);
+}
+// Add a random block on each player's grid
+addBlockOnGrid(board1, generateRandomBlock()); // For player 1
+addBlockOnGrid(board2, generateRandomBlock()); // For player 2
+
 //for viewing array contents using inspect element
 console.log(tetrisArray1);
 console.log(tetrisArray2);
+
 //test block tetrimino
-const block = [
-  [0, 4], [0, 5],
-  [1, 4], [1, 5]
-];
-createBlock(board1, block);
-createBlock(board1, lblock);
-createBlock(board1, sblock);
-createBlock(board2, tblock);
-createBlock(board2, iblock);
-createBlock(board2, jblock);
-createBlock(board2, zblock);
+//const block = [
+  //[0, 4], [0, 5],
+  //[1, 4], [1, 5]
+//];
+
