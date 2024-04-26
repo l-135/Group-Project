@@ -58,53 +58,6 @@ function redrawShape(surface, shape) {
 }
 
 function getBlockClass(shape) {
-<<<<<<< HEAD
-  if (shape === lblock) {
-      return 'lblock';
-  } else if (shape === sblock) {
-      return 'sblock';
-  } else if (shape === tblock) {
-      return 'tblock';
-  } else if (shape === iblock) {
-      return 'iblock';
-  } else if (shape === jblock) {
-      return 'jblock';
-  } else if (shape === zblock) {
-      return 'zblock';
-  } else if (shape === block) {
-      return 'block';
-  }
-}
-
-function updateAndRedraw(surface, shape) {
-    // Check if the new position is within the grid bounds
-    const canMove = shape.every(cell => {
-        const newRow = cell[0] + 1;
-        const newCol = cell[1];
-        return newRow >= 0 && newRow < row && newCol >= 0 && newCol < col;
-    });
-
-    if (canMove) {
-        // Remove the 'block' class from the previous position
-        shape.forEach(cell => {
-            const prevCellId = `${cell[0]}-${cell[1]}`;
-            const prevCellElement = document.getElementById(prevCellId);
-            prevCellElement.classList.remove('block');
-        });
-
-        // Update the position of the shape
-        shape.forEach(cell => {
-            cell[0]++; // Move the cell down by one row
-        });
-
-        // Add the 'block' class to the new position
-        shape.forEach(cell => {
-            const newCellId = `${cell[0]}-${cell[1]}`;
-            const newCell = document.getElementById(newCellId);
-            newCell.classList.add('block');
-        });
-    } else {
-=======
     if (shape === lblock) {
         return 'lblock';
     } else if (shape === sblock) {
@@ -153,11 +106,11 @@ function updateAndRedraw(surface, shape) {
     });
 
     if (!canMove) {
->>>>>>> test
         // If the new position is outside the grid bounds, stop the block from moving further
         clearInterval(surface.getAttribute('data-interval-id'));
     }
 }
+
 
 function startFalling(surface, shape) {
     // Calculate the initial column position for the block to start in the middle
