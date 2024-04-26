@@ -28,15 +28,20 @@ function setArray(boardArray) {
     }
 }
 
-// Test function for displaying block on grid
 function createBlock(surface, shape) {
-    block.forEach(([row, col]) => {
-        const cellId = `${row}-${col}`;
-        const cell = document.getElementById(cellId);
-        cell.classList.remove('grid');
-        cell.classList.add('block');
-    });
+    for (let i = 0; i < row; i++) {
+        for (let j = 0; j < col; j++) {
+            const cellId = `${i}-${j}`;
+            const cell = document.getElementById(cellId);
+            if (shape.some(([row, col]) => row === i && col === j)) {
+                cell.classList.remove('grid');
+                cell.classList.add('block');
+                cell.classList.add(getBlockClass(shape)); // Add specific block class
+            }
+        }
+    }
 }
+
 
 function redrawShape(surface, shape) {
   // Remove the 'block' class from all cells
@@ -52,8 +57,8 @@ function redrawShape(surface, shape) {
   });
 }
 
-// Function to get CSS class based on block shape
 function getBlockClass(shape) {
+<<<<<<< HEAD
   if (shape === lblock) {
       return 'lblock';
   } else if (shape === sblock) {
@@ -99,6 +104,56 @@ function updateAndRedraw(surface, shape) {
             newCell.classList.add('block');
         });
     } else {
+=======
+    if (shape === lblock) {
+        return 'lblock';
+    } else if (shape === sblock) {
+        return 'sblock';
+    } else if (shape === tblock) {
+        return 'tblock';
+    } else if (shape === iblock) {
+        return 'iblock';
+    } else if (shape === jblock) {
+        return 'jblock';
+    } else if (shape === zblock) {
+        return 'zblock';
+    } else {
+        return 'block'; // Default class
+    }
+}
+
+function updateAndRedraw(surface, shape) {
+    // Get the existing grid cells
+    const gridCells = surface.querySelectorAll('.grid');
+
+    // Clear all cells
+    gridCells.forEach(cell => {
+        cell.classList.remove('block', 'lblock', 'sblock', 'tblock', 'iblock', 'jblock', 'zblock');
+    });
+
+    // Draw the current block shape
+    shape.forEach(cell => {
+        const [row, col] = cell;
+        const cellId = `${row}-${col}`;
+        const cellElement = document.getElementById(cellId);
+        cellElement.classList.add('block');
+        cellElement.classList.add(getBlockClass(shape)); // Add specific block class
+    });
+
+    // Update the position of the shape
+    shape.forEach(cell => {
+        cell[0]++; // Move the cell down by one row
+    });
+
+    // Check if the new position is within the grid bounds
+    const canMove = shape.every(cell => {
+        const newRow = cell[0];
+        const newCol = cell[1];
+        return newRow >= 0 && newRow < row && newCol >= 0 && newCol < col;
+    });
+
+    if (!canMove) {
+>>>>>>> test
         // If the new position is outside the grid bounds, stop the block from moving further
         clearInterval(surface.getAttribute('data-interval-id'));
     }
@@ -233,7 +288,7 @@ function generateRandomBlock() {
 function addBlockOnGrid(surface, block) {
     const intervalId = startFalling(surface, block);
     surface.setAttribute('data-interval-id', intervalId);
-    createBlock(surface, block);
+    createBlock(surface, shape);
 }
 
 // Add a random block on each player's grid
@@ -241,4 +296,3 @@ addBlockOnGrid(board1, generateRandomBlock()); // For player 1
 addBlockOnGrid(board2, generateRandomBlock()); // For player 2
 console.log(tetrisArray1)
 console.log(tetrisArray2)
-
