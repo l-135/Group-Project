@@ -116,6 +116,7 @@ function updateAndRedraw(surface, shape) {
       
       generateAndDisplayNextBlockPreview(surface);
       
+      
   }
 }
 
@@ -124,7 +125,7 @@ function updateAndRedraw(surface, shape) {
 
 
 
-
+// falling function block
 function startFalling(surface, shape) {
     // Calculate the initial column position for the block to start in the middle
     const initialCol = Math.floor((col - shape[0].length) / 2);
@@ -160,6 +161,8 @@ function startFalling(surface, shape) {
 
     return intervalId;
 }
+
+
 
 function generateAndDisplayNextBlockPreview(surface) {
     const nextBlock = generateRandomBlock();
