@@ -76,40 +76,53 @@ function getBlockClass(shape) {
 }
 
 function updateAndRedraw(surface, shape) {
-    // Get the existing grid cells
-    const gridCells = surface.querySelectorAll('.grid');
+  // Get the existing grid cells
+  const gridCells = surface.querySelectorAll('.grid');
 
-    // Clear all cells
-    gridCells.forEach(cell => {
-        cell.classList.remove('block', 'lblock', 'sblock', 'tblock', 'iblock', 'jblock', 'zblock');
-    });
+  // Clear all cells
+  gridCells.forEach(cell => {
+      cell.classList.remove('block', 'lblock', 'sblock', 'tblock', 'iblock', 'jblock', 'zblock');
+  });
 
-    // Draw the current block shape
-    shape.forEach(cell => {
-        const [row, col] = cell;
-        const cellId = `${row}-${col}`;
-        const cellElement = document.getElementById(cellId);
-        cellElement.classList.add('block');
-        cellElement.classList.add(getBlockClass(shape)); // Add specific block class
-    });
+  // Draw the current block shape
+  shape.forEach(cell => {
+      const [row, col] = cell;
+      const cellId = `${row}-${col}`;
+      const cellElement = document.getElementById(cellId);
+      cellElement.classList.add('block');
+      cellElement.classList.add(getBlockClass(shape)); // Add specific block class
+  });
 
-    // Update the position of the shape
-    shape.forEach(cell => {
-        cell[0]++; // Move the cell down by one row
-    });
+  // Update the position of the shape
+  shape.forEach(cell => {
+      cell[0]++; // Move the cell down by one row
+  });
 
-    // Check if the new position is within the grid bounds
-    const canMove = shape.every(cell => {
-        const newRow = cell[0];
-        const newCol = cell[1];
-        return newRow >= 0 && newRow < row && newCol >= 0 && newCol < col;
-    });
+  // Check if the new position is within the grid bounds
+  const canMove = shape.every(cell => {
+      const newRow = cell[0];
+      const newCol = cell[1];
+      return newRow >= 0 && newRow < row && newCol >= 0 && newCol < col;
+  });
 
-    if (!canMove) {
-        // If the new position is outside the grid bounds, stop the block from moving further
-        clearInterval(surface.getAttribute('data-interval-id'));
-    }
+  if (!canMove) {
+      // If the new position is outside the grid bounds, stop the block from moving further
+      clearInterval(surface.getAttribute('data-interval-id'));
+
+      // Add the preview block to the grid
+      addPreviewBlockToGrid(surface);
+
+      // Generate and display the next block preview
+      
+      generateAndDisplayNextBlockPreview(surface);
+      
+  }
 }
+
+
+
+
+
 
 
 function startFalling(surface, shape) {
@@ -176,6 +189,24 @@ function generateAndDisplayNextBlockPreview(surface) {
         cell.style.gridColumn = col + offsetX + 1;
         previewContainer.appendChild(cell);
     });
+}
+//Function to add preview function to the grid
+function addPreviewBlockToGrid(surface){
+    const previewContainer = document.getElementById(surface.id.replace('board', 'preview'));
+    const previewCells = previewContainer.querySelectorAll('.preview-cell');
+     // Add the preview block to the grid
+  previewCells.forEach(cell => {
+      const row = parseInt(cell.style.gridRow);
+      const col = parseInt(cell.style.gridColumn);
+      const cellId = `${row - 1}-${col - 1}`; // Adjust row and column indices to match the grid
+      const gridCell = document.getElementById(cellId);
+      gridCell.classList.add('block');
+      gridCell.classList.add(cell.classList[1]); // Add specific block class from preview cell
+  });
+
+  // Clear the preview container
+  previewContainer.innerHTML = '';
+
 }
 
 // Define the Tetris blocks
