@@ -272,20 +272,14 @@ function generateRandomBlock() {
 
 
 // Function to add a block on the specified grid
-function addBlockOnGrid(surface1, surface2, block) {
-    /*const intervalId = startFalling(surface, block);
+function addBlockOnGrid(surface, block) {
+    const intervalId = startFalling(surface, block);
     surface.setAttribute('data-interval-id', intervalId);
-    createBlock(surface, shape);*/
-    const intervalId1 = startFalling(surface1, block);
-    const intervalId2 = startFalling(surface2, block);
-    createBlock(surface1, shape);
-    createBlock(surface2, shape);
-    
-    surface1.setAttribute('data-interval-id', intervalId1);
-    surface2.setAttribute('data-interval-id', intervalId2);
+    createBlock(surface, shape);
 }
 
 // Add a random block on each player's grid
-addBlockOnGrid(board1, board2, generateRandomBlock()); // For player 1
+addBlockOnGrid(board1, generateRandomBlock()); // For player 1
+addBlockOnGrid(board2, generateRandomBlock()); // For player 2
 console.log(tetrisArray1)
 console.log(tetrisArray2)
