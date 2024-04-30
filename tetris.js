@@ -88,7 +88,7 @@ function updateAndRedraw(surface, shape) {
   shape.forEach(cell => {
       const [row, col] = cell;
       const cellId = `${row}-${col}`;
-      const cellElement = surface.getElementById(cellId);
+      const cellElement = document.getElementById(cellId);
       cellElement.classList.add('block');
       cellElement.classList.add(getBlockClass(shape)); // Add specific block class
   });
@@ -272,17 +272,18 @@ function generateRandomBlock() {
 
 
 // Function to add a block on the specified grid
-function addBlockOnGrid(surface, block) {
-    const intervalId = startFalling(surface, block);
+function addBlockOnGrid(surface1, surface2, block) {
+    /*const intervalId = startFalling(surface, block);
     surface.setAttribute('data-interval-id', intervalId);
-    createBlock(surface, shape);
-    /*const blockCopy = surface.cloneNode(true);
-    blockCopy.removeAttribute('id'); 
-    document.getElementById('board2').appendChild(blockCopy); */
+    createBlock(surface, shape);*/
+    const intervalId1 = startFalling(surface1, block);
+    const intervalId2 = startFalling(surface2, block);
+    
+    surface1.setAttribute('data-interval-id', intervalId1);
+    surface2.setAttribute('data-interval-id', intervalId2);
 }
 
 // Add a random block on each player's grid
-addBlockOnGrid(board1, generateRandomBlock()); // For player 1
-addBlockOnGrid(board2, generateRandomBlock()); // For player 2
+addBlockOnGrid(board1, board2, generateRandomBlock()); // For player 1
 console.log(tetrisArray1)
 console.log(tetrisArray2)
