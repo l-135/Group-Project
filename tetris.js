@@ -278,6 +278,8 @@ function addBlockOnGrid(surface1, surface2, block) {
     createBlock(surface, shape);*/
     const intervalId1 = startFalling(surface1, block);
     const intervalId2 = startFalling(surface2, block);
+    createBlock(surface1, shape);
+    createBlock(surface2, shape);
     
     surface1.setAttribute('data-interval-id', intervalId1);
     surface2.setAttribute('data-interval-id', intervalId2);
