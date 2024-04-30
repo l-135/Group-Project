@@ -1,17 +1,19 @@
 const row = 20;
 const col = 10;
+const player1 = 1;
+const player2 =2;
 const tetrisArray1 = [];
 const tetrisArray2 = [];
 const board1 = document.getElementById('board1');
 const board2 = document.getElementById('board2');
 
 // Creates grid for both players
-function createGrid(surface) {
+function createGrid(surface, player) {
     for (let i = 0; i < row; i++) {
         for (let j = 0; j < col; j++) {
             const cell = document.createElement('div');
             cell.classList.add('grid');
-            cell.id = i + '-' + j;
+            cell.id = player + '-' + i + '-' + j;
             surface.appendChild(cell);
         }
     }
@@ -28,10 +30,10 @@ function setArray(boardArray) {
     }
 }
 
-function createBlock(surface, shape) {
+function createBlock(surface, shape, player) {
     for (let i = 0; i < row; i++) {
         for (let j = 0; j < col; j++) {
-            const cellId = `${i}-${j}`;
+            const cellId = `${player}${i}-${j}`;
             const cell = document.getElementById(cellId);
             if (shape.some(([row, col]) => row === i && col === j)) {
                 cell.classList.remove('grid');
@@ -43,7 +45,7 @@ function createBlock(surface, shape) {
 }
 
 
-function redrawShape(surface, shape) {
+function redrawShape(surface, shape, player) {
   // Remove the 'block' class from all cells
   surface.querySelectorAll('.block').forEach(cell => {
       cell.classList.remove('block', 'lblock', 'sblock', 'tblock', 'iblock', 'jblock', 'zblock');
@@ -51,7 +53,7 @@ function redrawShape(surface, shape) {
 
   // Add the 'block' class and the specific block class to cells occupied by the falling block
   shape.forEach(([row, col]) => {
-      const cellId = `${row}-${col}`;
+      const cellId = `${player}-${row}-${col}`;
       const cell = document.getElementById(cellId);
       cell.classList.add('block', getBlockClass(shape));
   });
@@ -75,7 +77,7 @@ function getBlockClass(shape) {
     }
 }
 
-function updateAndRedraw(surface, shape) {
+function updateAndRedraw(surface, shape, player) {
   // Get the existing grid cells
   const gridCells = surface.querySelectorAll('.grid');
 
@@ -87,7 +89,7 @@ function updateAndRedraw(surface, shape) {
   // Draw the current block shape
   shape.forEach(cell => {
       const [row, col] = cell;
-      const cellId = `${row}-${col}`;
+      const cellId = `${player}-${row}-${col}`;
       const cellElement = document.getElementById(cellId);
       cellElement.classList.add('block');
       cellElement.classList.add(getBlockClass(shape)); // Add specific block class
@@ -126,7 +128,7 @@ function updateAndRedraw(surface, shape) {
 
 
 // falling function block
-function startFalling(surface, shape) {
+function startFalling(surface, shape, player) {
     // Calculate the initial column position for the block to start in the middle
     const initialCol = Math.floor((col - shape[0].length) / 2);
 
@@ -152,11 +154,11 @@ function startFalling(surface, shape) {
     });
 
     // Redraw the shape in the new position
-    redrawShape(surface, shape);
+    redrawShape(surface, shape, player);
 
     // Start falling
     const intervalId = setInterval(() => {
-        updateAndRedraw(surface, shape);
+        updateAndRedraw(surface, shape, player);
     }, 1000); // Adjust the interval (in milliseconds) for the speed of falling
 
     return intervalId;
@@ -255,8 +257,8 @@ const zblock = [
     [1, 4]
 ];
 
-createGrid(board1);
-createGrid(board2);
+createGrid(board1, player1);
+createGrid(board2, player2);
 
 generateAndDisplayNextBlockPreview(board1);
 generateAndDisplayNextBlockPreview(board2);
@@ -272,14 +274,14 @@ function generateRandomBlock() {
 
 
 // Function to add a block on the specified grid
-function addBlockOnGrid(surface, block) {
+function addBlockOnGrid(surface, block, player) {
     const intervalId = startFalling(surface, block);
     surface.setAttribute('data-interval-id', intervalId);
-    createBlock(surface, shape);
+    createBlock(surface, shape, player);
 }
 
 // Add a random block on each player's grid
-addBlockOnGrid(board1, generateRandomBlock()); // For player 1
-addBlockOnGrid(board2, generateRandomBlock()); // For player 2
+addBlockOnGrid(board1, generateRandomBlock(), player1); // For player 1
+addBlockOnGrid(board2, generateRandomBlock(), player2); // For player 2
 console.log(tetrisArray1)
 console.log(tetrisArray2)
