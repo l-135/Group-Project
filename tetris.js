@@ -275,10 +275,10 @@ function generateRandomBlock() {
 function addBlockOnGrid(surface, block) {
     const intervalId = startFalling(surface, block);
     surface.setAttribute('data-interval-id', intervalId);
-    createBlock(surface, shape);
+   /* createBlock(surface, shape);
     const blockCopy = surface.cloneNode(true);
     blockCopy.removeAttribute('id'); 
-    document.getElementById('board2').appendChild(blockCopy); 
+    document.getElementById('board2').appendChild(blockCopy); */
 }
 
 // Add a random block on each player's grid
