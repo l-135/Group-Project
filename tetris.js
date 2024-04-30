@@ -33,7 +33,7 @@ function setArray(boardArray) {
 function createBlock(surface, shape, player) {
     for (let i = 0; i < row; i++) {
         for (let j = 0; j < col; j++) {
-            const cellId = `${player}${i}-${j}`;
+            const cellId = `${player}-${i}-${j}`;
             const cell = document.getElementById(cellId);
             if (shape.some(([row, col]) => row === i && col === j)) {
                 cell.classList.remove('grid');
