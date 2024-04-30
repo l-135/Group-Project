@@ -272,8 +272,8 @@ function generateRandomBlock() {
 
 
 // Function to add a block on the specified grid
-function addBlockOnGrid(surface, block) {
-    const intervalId = startFalling(surface, block);
+function addBlockOnGrid(surface, shape) {
+    const intervalId = startFalling(surface, shape);
     surface.setAttribute('data-interval-id', intervalId);
     createBlock(surface, shape);
 }
