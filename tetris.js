@@ -88,7 +88,7 @@ function updateAndRedraw(surface, shape) {
   shape.forEach(cell => {
       const [row, col] = cell;
       const cellId = `${row}-${col}`;
-      const cellElement = document.getElementById(cellId);
+      const cellElement = surface.getElementById(cellId);
       cellElement.classList.add('block');
       cellElement.classList.add(getBlockClass(shape)); // Add specific block class
   });
