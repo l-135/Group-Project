@@ -286,8 +286,27 @@ function addBlockOnGrid(surface, block, player) {
     createBlock(surface, block, player);
 }
 
+
+
+
+
+
+document.addEventListerner('keydown', function(event){
+    if (event.key === 'Enter') {
+        startGame()
+
+
+function startGame() {
+    startOverlay.style.display = 'none';
+
+    board1.style.display = 'block';
+    board2.style.display = 'block';
+
+
+
 // Add a random block on each player's grid
 addBlockOnGrid(board1, generateRandomBlock(), player1); // For player 1
 addBlockOnGrid(board2, generateRandomBlock(), player2); // For player 2
-console.log(tetrisArray1)
-console.log(tetrisArray2)
+}
+//console.log(tetrisArray1)
+//console.log(tetrisArray2)
