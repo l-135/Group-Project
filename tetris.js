@@ -1,12 +1,13 @@
 const row = 20;
 const col = 10;
 const player1 = 1;
-const player2 =2;
+const player2 = 2;
 const tetrisArray1 = [];
 const tetrisArray2 = [];
 const board1 = document.getElementById('board1');
 const board2 = document.getElementById('board2');
 const startOverlay = document.getElementById('start-overlay');
+
 // Creates grid for both players
 function createGrid(surface, player) {
     for (let i = 0; i < row; i++) {
@@ -31,14 +32,17 @@ function setArray(boardArray) {
 }
 
 function createBlock(surface, shape, player) {
-    let blockCreated = false;
+    let blockCreated = false; // Flag to track if the block has been created
 
     for (let i = 0; i < row; i++) {
         for (let j = 0; j < col; j++) {
             const cellId = `${player}-${i}-${j}`;
             const cell = document.getElementById(cellId);
-            const isBlockCell =shape.some(([row, col]) => row === i && col === j);
-if (isBlockCell) {
+
+            // Check if the cell is part of the shape
+            const isBlockCell = shape.some(([row, col]) => row === i && col === j);
+
+            if (isBlockCell) {
                 cell.classList.remove('grid');
                 cell.classList.add('block');
                 cell.classList.add(getBlockClass(shape)); // Add specific block class
@@ -51,18 +55,19 @@ if (isBlockCell) {
         }
     }
 }
-function redrawShape(surface, shape, player) {
-  // Remove the 'block' class from all cells
-  surface.querySelectorAll('.block').forEach(cell => {
-      cell.classList.remove('block', 'lblock', 'sblock', 'tblock', 'iblock', 'jblock', 'zblock');
-  });
 
-  // Add the 'block' class and the specific block class to cells occupied by the falling block
-  shape.forEach(([row, col]) => {
-      const cellId = `${player}-${row}-${col}`;
-      const cell = document.getElementById(cellId);
-      cell.classList.add('block', getBlockClass(shape));
-  });
+function redrawShape(surface, shape, player) {
+    // Remove the 'block' class from all cells
+    surface.querySelectorAll('.block').forEach(cell => {
+        cell.classList.remove('block', 'lblock', 'sblock', 'tblock', 'iblock', 'jblock', 'zblock');
+    });
+
+    // Add the 'block' class and the specific block class to cells occupied by the falling block
+    shape.forEach(([row, col]) => {
+        const cellId = `${player}-${row}-${col}`;
+        const cell = document.getElementById(cellId);
+        cell.classList.add('block', getBlockClass(shape));
+    });
 }
 
 function getBlockClass(shape) {
@@ -84,54 +89,46 @@ function getBlockClass(shape) {
 }
 
 function updateAndRedraw(surface, shape, player) {
-  // Get the existing grid cells
-  const gridCells = surface.querySelectorAll('.grid');
+    // Get the existing grid cells
+    const gridCells = surface.querySelectorAll('.grid');
 
-  // Clear all cells
-  gridCells.forEach(cell => {
-      cell.classList.remove('block', 'lblock', 'sblock', 'tblock', 'iblock', 'jblock', 'zblock');
-  });
+    // Clear all cells
+    gridCells.forEach(cell => {
+        cell.classList.remove('block', 'lblock', 'sblock', 'tblock', 'iblock', 'jblock', 'zblock');
+    });
 
-  // Draw the current block shape
-  shape.forEach(cell => {
-      const [row, col] = cell;
-      const cellId = `${player}-${row}-${col}`;
-      const cellElement = document.getElementById(cellId);
-      cellElement.classList.add('block');
-      cellElement.classList.add(getBlockClass(shape)); // Add specific block class
-  });
+    // Draw the current block shape
+    shape.forEach(cell => {
+        const [row, col] = cell;
+        const cellId = `${player}-${row}-${col}`;
+        const cellElement = document.getElementById(cellId);
+        cellElement.classList.add('block');
+        cellElement.classList.add(getBlockClass(shape)); // Add specific block class
+    });
 
-  // Update the position of the shape
-  shape.forEach(cell => {
-      cell[0]++; // Move the cell down by one row
-  });
+    // Update the position of the shape
+    shape.forEach(cell => {
+        cell[0]++; // Move the cell down by one row
+    });
 
-  // Check if the new position is within the grid bounds
-  const canMove = shape.every(cell => {
-      const newRow = cell[0];
-      const newCol = cell[1];
-      return newRow >= 0 && newRow < row && newCol >= 0 && newCol < col;
-  });
+    // Check if the new position is within the grid bounds
+    const canMove = shape.every(cell => {
+        const newRow = cell[0];
+        const newCol = cell[1];
+        return newRow >= 0 && newRow < row && newCol >= 0 && newCol < col;
+    });
 
-  if (!canMove) {
-      // If the new position is outside the grid bounds, stop the block from moving further
-      clearInterval(surface.getAttribute('data-interval-id'));
+    if (!canMove) {
+        // If the new position is outside the grid bounds, stop the block from moving further
+        clearInterval(surface.getAttribute('data-interval-id'));
 
-      // Add the preview block to the grid
-      addPreviewBlockToGrid(surface);
+        // Add the preview block to the grid
+        //addPreviewBlockToGrid(surface, player);
 
-      // Generate and display the next block preview
-      
-      generateAndDisplayNextBlockPreview(surface);
-      
-      
-  }
+        // Generate and display the next block preview
+        generateAndDisplayNextBlockPreview(surface);
+    }
 }
-
-
-
-
-
 
 // falling function block
 function startFalling(surface, shape, player) {
@@ -165,12 +162,10 @@ function startFalling(surface, shape, player) {
     // Start falling
     const intervalId = setInterval(() => {
         updateAndRedraw(surface, shape, player);
-    }, 1000); // Adjust the interval (in milliseconds) for the speed of falling
+    }, 200); // Adjust the interval (in milliseconds) for the speed of falling
 
     return intervalId;
 }
-
-
 
 function generateAndDisplayNextBlockPreview(surface) {
     const nextBlock = generateRandomBlock();
@@ -200,24 +195,6 @@ function generateAndDisplayNextBlockPreview(surface) {
         cell.style.gridColumn = col + offsetX + 1;
         previewContainer.appendChild(cell);
     });
-}
-//Function to add preview function to the grid
-function addPreviewBlockToGrid(surface){
-    const previewContainer = document.getElementById(surface.id.replace('board', 'preview'));
-    const previewCells = previewContainer.querySelectorAll('.preview-cell');
-     // Add the preview block to the grid
-  previewCells.forEach(cell => {
-      const row = parseInt(cell.style.gridRow);
-      const col = parseInt(cell.style.gridColumn);
-      const cellId = `${row - 1}-${col - 1}`; // Adjust row and column indices to match the grid
-      const gridCell = document.getElementById(cellId);
-      gridCell.classList.add('block');
-      gridCell.classList.add(cell.classList[1]); // Add specific block class from preview cell
-  });
-
-  // Clear the preview container
-  previewContainer.innerHTML = '';
-
 }
 
 // Define the Tetris blocks
@@ -266,18 +243,14 @@ const zblock = [
 createGrid(board1, player1);
 createGrid(board2, player2);
 
-generateAndDisplayNextBlockPreview(board1);
-generateAndDisplayNextBlockPreview(board2);
-
 setArray(tetrisArray1);
 setArray(tetrisArray2);
 
 function generateRandomBlock() {
-  const blocks = [lblock, sblock, tblock, iblock, jblock, zblock];
-  const randomIndex = Math.floor(Math.random() * blocks.length);
-  return blocks[randomIndex];
+    const blocks = [lblock, sblock, tblock, iblock, jblock, zblock];
+    const randomIndex = Math.floor(Math.random() * blocks.length);
+    return blocks[randomIndex];
 }
-
 
 // Function to add a block on the specified grid
 function addBlockOnGrid(surface, block, player) {
@@ -286,31 +259,34 @@ function addBlockOnGrid(surface, block, player) {
     createBlock(surface, block, player);
 }
 
-
 // Hide game boards initially
 board1.style.display = 'none';
 board2.style.display = 'none';
 
-
-
-document.addEventListerner('keydown', function(event){
+// Listen for keydown events
+document.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
+        // Start the game when Enter is pressed
         startGame();
     }
 });
 
+// Listen for click events on the "Start Game" button
+const startButton = document.querySelector('.start-button');
+startButton.addEventListener('click', startGame);
 
 function startGame() {
+    // Hide start overlay
     startOverlay.style.display = 'none';
 
+    // Show game boards
     board1.style.display = 'block';
     board2.style.display = 'block';
 
-
-
-// Add a random block on each player's grid
-addBlockOnGrid(board1, generateRandomBlock(), player1); // For player 1
-addBlockOnGrid(board2, generateRandomBlock(), player2); // For player 2
+    // Call function to start game logic
+    addBlockOnGrid(board1, generateRandomBlock(), player1); // For player 1
+    addBlockOnGrid(board2, generateRandomBlock(), player2); // For player 2
 }
+
 //console.log(tetrisArray1)
 //console.log(tetrisArray2)
