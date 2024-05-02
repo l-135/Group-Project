@@ -293,7 +293,9 @@ function addBlockOnGrid(surface, block, player) {
 
 document.addEventListerner('keydown', function(event){
     if (event.key === 'Enter') {
-        startGame()
+        startGame();
+    }
+});
 
 
 function startGame() {
