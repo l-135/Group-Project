@@ -6,7 +6,7 @@ const tetrisArray1 = [];
 const tetrisArray2 = [];
 const board1 = document.getElementById('board1');
 const board2 = document.getElementById('board2');
-
+const startOverlay = document.getElementById('start-overlay');
 // Creates grid for both players
 function createGrid(surface, player) {
     for (let i = 0; i < row; i++) {
@@ -287,7 +287,9 @@ function addBlockOnGrid(surface, block, player) {
 }
 
 
-
+// Hide game boards initially
+board1.style.display = 'none';
+board2.style.display = 'none';
 
 
 
