@@ -31,20 +31,26 @@ function setArray(boardArray) {
 }
 
 function createBlock(surface, shape, player) {
+    let blockCreated = false;
+
     for (let i = 0; i < row; i++) {
         for (let j = 0; j < col; j++) {
             const cellId = `${player}-${i}-${j}`;
             const cell = document.getElementById(cellId);
-            if (shape.some(([row, col]) => row === i && col === j)) {
+            const isBlockCell =shape.some(([row, col]) => row === i && col === j);
+if (isBlockCell) {
                 cell.classList.remove('grid');
                 cell.classList.add('block');
                 cell.classList.add(getBlockClass(shape)); // Add specific block class
+                blockCreated = true; // Set the flag to true to indicate block creation
+                break; // Exit the loop once the block is created
             }
+        }
+        if (blockCreated) {
+            break; // Exit the outer loop once the block is created
         }
     }
 }
-
-
 function redrawShape(surface, shape, player) {
   // Remove the 'block' class from all cells
   surface.querySelectorAll('.block').forEach(cell => {
