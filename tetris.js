@@ -105,13 +105,10 @@ function startFalling(player) {
             return false;
         }
 
-
-
        //if no colisions return true
         return true;
     });
     console.log("1st break", canMoveDown);
-
 
     if (canMoveDown) {
         clearPreviousBlock(player);
@@ -257,8 +254,28 @@ function getCurrentBlock(player) {
 function getNextBlock(player) {
     const blocks = [lblock, sblock, tblock, iblock, jblock, zblock];
     const randomIndex = Math.floor(Math.random() * blocks.length);
-    players[player].NextBlock = blocks[randomIndex];
+    const nextBlock = blocks[randomIndex];
+
+    // Render the next block in the preview container
+    renderPreview(player, nextBlock);
 }
+
+// Function to render the next block in the preview container
+function renderPreview(player, nextBlock) {
+    const previewElement = document.getElementById(`preview${player}`);
+    previewElement.innerHTML = ''; // Clear previous preview content
+
+    // Create preview cells for the next block
+    nextBlock.forEach(([row, col]) => {
+        const cell = document.createElement('div');
+        cell.classList.add('preview-cell');
+        cell.classList.add(getBlockClass(nextBlock)); // Apply color based on block type
+        cell.style.gridColumn = col + 1; // Adjust column index for CSS grid
+        cell.style.gridRow = row + 1; // Adjust row index for CSS grid
+        previewElement.appendChild(cell);
+    });
+}
+
 // Set up arrays and grids
 setArray(player1);
 setArray(player2);
