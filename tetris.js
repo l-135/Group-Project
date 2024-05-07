@@ -66,38 +66,25 @@ function createBlock(player) {
 }
 
 //updates array as piece is falling on board 1 = falling block, 2 = set block
-function updateArrayS(player, isSettingBlock = false) {
+function updateArray(player, isSettingBlock = false) {
     const { tetrisArray, fallingBlock } = players[player];
-    
+  
     // Clear the previous fallingBlock positions in the tetrisArray
-    for (let i = 0; i < row; i++) {
-        for (let j = 0; j < col; j++) {
-            if (tetrisArray[i][j] == 1) {
-                tetrisArray[i][j] = 0;
-            }
+    tetrisArray.forEach((row, i) =>
+      row.forEach((_, j) => {
+        if (tetrisArray[i][j] == 1) {
+          tetrisArray[i][j] = 0;
         }
-    }
- // Update the tetrisArray with the fallingBlock positions or set block positions
- const fallingBlockPositions = new Set(fallingBlock.map(([row, col]) => `${row},${col}`));
-
- for (let i = 0; i < row; i++) {
-     for (let j = 0; j < col; j++) {
-         const position = `${i},${j}`;
-         if (fallingBlockPositions.has(position)) {
-            console.log("fb:",fallingBlockPositions, "pos", position, "i",i,"j",j, )
-             tetrisArray[i][j] = isSettingBlock ? 2 : 1;
-             console.log("Player 1 Tetris Array:", players[1].tetrisArray);
-             fallingBlockPositions.delete(position); // Remove the position from the Set
-         }
-     }
-
-     // If the Set is empty, all positions have been updated
-     if (fallingBlockPositions.size === 0) {
-         break;
-     }
-    
- }
-}
+      })
+    );
+  
+    // Update the tetrisArray with the fallingBlock positions (1) or set block positions (2)
+    fallingBlock.forEach(([row, col]) => {
+      tetrisArray[row][col] = isSettingBlock ? 2 : 1;
+    });
+  
+    console.log("Player 1 Tetris Array:", JSON.stringify(players[player1]));
+  }
 
 function startFalling(player) {
     const { tetrisArray, fallingBlock } = players[player];
@@ -109,7 +96,6 @@ function startFalling(player) {
     const canMoveDown = newPositions.every(([newRow, newCol]) => {
         // Check if the new position is within the tetrisArray
         console.log("top of canmove");
-
         if (newRow >= tetrisArray.length) {
             return false;
         }
@@ -140,14 +126,16 @@ function startFalling(player) {
         // Repeat the falling animation at a fixed interval
         setTimeout(() => startFalling(player), 500);
     } else {
-        // Update the tetrisArray with the fallingBlock position (value 2)
-        //updateArray(player, true);
+        //block is set and can not move
+        // Update the tetrisArray with the fallingBlock position true = (2)
+        updateArray(player, true);
 
         // Clear the fallingBlock
         players[player].fallingBlock = null;
 
         // Generate a new block (assign it to fallingBlock)
-        getCurrentBlock(player);
+        getCurrentBlock(player)
+        startFalling(player);
     }
 }
 //clears falling block from screen
@@ -274,16 +262,12 @@ function getNextBlock(player) {
 // Set up arrays and grids
 setArray(player1);
 setArray(player2);
-console.log("p1", players[player1]);
-
 createGrid(player1);
 createGrid(player2);
-// Add a random block on each player's grid
+console.log("p1", JSON.stringify(players[player1]));
+console.log("p1", players[player1]);
 getCurrentBlock(player1);
 getCurrentBlock(player2);
 getNextBlock(player1);
 getNextBlock(player2);
 startFalling(player1);
-
-console.log(players[player1]);
-console.log(players[player2]);
