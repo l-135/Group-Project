@@ -4,7 +4,7 @@ const player1 = 1;
 const player2 = 2;
 const board1 = document.getElementById('board1');
 const board2 = document.getElementById('board2');
-const firstPiece = false;
+let gameOver = false;
 
 //player objects
 const players = {
@@ -87,6 +87,9 @@ function updateArray(player, isSettingBlock = false) {
   }
 
 function startFalling(player) {
+    if (gameOver) {
+        return;
+    }
     const { tetrisArray, fallingBlock } = players[player];
 
     // Calculate the new positions of the falling block cells
@@ -104,8 +107,6 @@ function startFalling(player) {
         if (tetrisArray[newRow][newCol] === 2) {
             return false;
         }
-
-
 
        //if no colisions return true
         return true;
@@ -238,7 +239,7 @@ const zblock = [
 //gets random blocks for both players and starts game
 function getCurrentBlock(player) {
     
-    const { fallingBlock,currentBlock } = players[player];
+    const { fallingBlock,currentBlock, tetrisArray } = players[player];
     const blocks = [lblock, sblock, tblock, iblock, jblock, zblock];
     const randomIndex = Math.floor(Math.random() * blocks.length);
     const newBlock = blocks[randomIndex];
@@ -252,6 +253,20 @@ function getCurrentBlock(player) {
     createBlock(player); 
     console.log('fallingBlock after assignment:', players[player].fallingBlock);
 
+    //check tetris array.
+    const canFit = newBlock.every(([row, col]) => tetrisArray[row][col] !== 2);
+    
+    //continue game
+    if (canFit) {
+        players[player].currentBlock = newBlock;
+        players[player].fallingBlock = newBlock;
+        createBlock(player);
+    //game over
+    } else {
+        console.log("Game over!");
+        gameOver= true;
+
+    }
 }
 
 function getNextBlock(player) {
