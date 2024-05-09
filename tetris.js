@@ -121,20 +121,20 @@ function startFalling(player) {
         console.log("newpos in playeraray",players[player].fallingBlock);
         renderFalling(player);
 
-        // Repeat the falling animation at a fixed interval
+        // continue falling
         setTimeout(() => startFalling(player), 500);
     } else {
         // Block is set and cannot move
-        // Update the tetrisArray with the fallingBlock position (2)
+        // Update the tetrisArray with the fallingBlock position 2
         updateArray(player, true);
 
         // Clear the fallingBlock
         players[player].fallingBlock = null;
 
-        // Generate a new block (assign it to fallingBlock)
+        // Generate a new block 
         getCurrentBlock(player);
 
-        // Start falling for the next block after a brief delay
+        // Start falling for the next block after
         setTimeout(() => startFalling(player), 500);
     }
 }
@@ -311,7 +311,7 @@ function moveBlockLeft(player) {
 function moveBlockRight(player) {
     const { fallingBlock, tetrisArray } = players[player];
     //check for collision with end of array or set block
-    const canMoveRight = fallingBlock.every(([row, col]) => col < col - 1 && tetrisArray[row][col + 1] !== 2);
+    const canMoveRight = fallingBlock.every(([row, col]) => col < 9 && tetrisArray[row][col + 1] !== 2);
     //update piecce and board
     if (canMoveRight) {
         clearPreviousBlock(player);
