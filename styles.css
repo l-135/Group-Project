@@ -17,13 +17,14 @@ body {
   text-align: center;
 }
 
+/* CSS for Tetris game with adjusted grid size and position */
 .board {
-  width: 250px; /* Adjusted to fit border */
-  height: 540px; /* Increased height */
-  border: 2px solid #fff; /* White border */
-  background-color: #000; /* Black background */
-  margin: 0 auto;
-  position: relative;
+  width: 260px; /* Increase board width to accommodate larger cells */
+  height: 520px; /* Increase board height to accommodate larger cells */
+  border: 2px solid black;
+  margin: 10px auto; /* Center the board horizontally with a bit of top margin */
+  box-sizing: border-box;
+  position: relative; /* Position the board relative to its container */
 }
 
 .preview {
@@ -48,20 +49,13 @@ body {
   display: inline-block;
 }
 
-/* Define specific block background colors */
-.preview-cell.block { background-color: brown !important; }
-.preview-cell.lblock { background-color: orange !important; }
-.preview-cell.sblock { background-color: green !important; }
-.preview-cell.tblock { background-color: magenta !important; }
-.preview-cell.iblock { background-color: violet !important; }
-.preview-cell.jblock { background-color: red !important; }
-.preview-cell.zblock { background-color: blue !important; }
-
-/* Add styles for Tetris blocks on the board */
+/* CSS for Tetris grid cells */
 .grid, .block, .lblock, .iblock, .jblock, .zblock, .sblock, .tblock {
-  width: 23px;
-  height: 23px;
+  width: 25px; /* Increase cell width */
+  height: 25px; /* Increase cell height */
+  border: 1px solid #ccc; /* Add border to create grid marks */
   display: inline-block;
+  box-sizing: border-box; /* Ensure the border is included in the box dimensions */
 }
 
 /* Add specific styles for each block type */
@@ -72,4 +66,3 @@ body {
 .iblock { background-color: violet; }
 .jblock { background-color: red; }
 .zblock { background-color: blue; }
-
