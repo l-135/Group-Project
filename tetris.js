@@ -4,7 +4,7 @@ const player1 = 1;
 const player2 = 2;
 const board1 = document.getElementById('board1');
 const board2 = document.getElementById('board2');
-const firstPiece = false;
+let gameOver = false;
 
 //player objects
 const players = {
@@ -68,25 +68,28 @@ function createBlock(player) {
 //updates array as piece is falling on board 1 = falling block, 2 = set block
 function updateArray(player, isSettingBlock = false) {
     const { tetrisArray, fallingBlock } = players[player];
-  
+
     // Clear the previous fallingBlock positions in the tetrisArray
     tetrisArray.forEach((row, i) =>
-      row.forEach((_, j) => {
-        if (tetrisArray[i][j] == 1) {
-          tetrisArray[i][j] = 0;
-        }
-      })
+        row.forEach((_, j) => {
+            if (tetrisArray[i][j] == 1) {
+                tetrisArray[i][j] = 0;
+            }
+        })
     );
-  
+
     // Update the tetrisArray with the fallingBlock positions (1) or set block positions (2)
     fallingBlock.forEach(([row, col]) => {
-      tetrisArray[row][col] = isSettingBlock ? 2 : 1;
+        tetrisArray[row][col] = isSettingBlock ? 2 : 1;
     });
-  
+
     console.log("Player 1 Tetris Array:", JSON.stringify(players[player1]));
-  }
+}
 
 function startFalling(player) {
+    if (gameOver) {
+        return;
+    }
     const { tetrisArray, fallingBlock } = players[player];
 
     // Calculate the new positions of the falling block cells
@@ -95,7 +98,6 @@ function startFalling(player) {
     // Check if any of the new positions are invalid or collide with occupied cells
     const canMoveDown = newPositions.every(([newRow, newCol]) => {
         // Check if the new position is within the tetrisArray
-        console.log("top of canmove");
         if (newRow >= tetrisArray.length) {
             return false;
         }
@@ -108,7 +110,6 @@ function startFalling(player) {
        //if no colisions return true
         return true;
     });
-    console.log("1st break", canMoveDown);
 
     if (canMoveDown) {
         clearPreviousBlock(player);
@@ -120,40 +121,43 @@ function startFalling(player) {
         console.log("newpos in playeraray",players[player].fallingBlock);
         renderFalling(player);
 
-        // Repeat the falling animation at a fixed interval
+        // continue falling
         setTimeout(() => startFalling(player), 500);
     } else {
-        //block is set and can not move
-        // Update the tetrisArray with the fallingBlock position true = (2)
+        // Block is set and cannot move
+        // Update the tetrisArray with the fallingBlock position 2
         updateArray(player, true);
 
         // Clear the fallingBlock
         players[player].fallingBlock = null;
 
-        // Generate a new block (assign it to fallingBlock)
-        getCurrentBlock(player)
-        startFalling(player);
+        // Generate a new block 
+        getCurrentBlock(player);
+
+        // Start falling for the next block after
+        setTimeout(() => startFalling(player), 500);
     }
 }
+
 //clears falling block from screen
 function clearPreviousBlock(player) {
     const { fallingBlock } = players[player];
-  
+
     for (let i = 0; i < row; i++) {
-      for (let j = 0; j < col; j++) {
-        const cellId = `${player}-${i}-${j}`;
-        const cell = document.getElementById(cellId);
-        if (fallingBlock && fallingBlock.some(([row, col]) => row === i && col === j)) {
-          cell.classList.remove(getBlockClass(players[player].currentBlock));
-          cell.classList.add('grid');
+        for (let j = 0; j < col; j++) {
+            const cellId = `${player}-${i}-${j}`;
+            const cell = document.getElementById(cellId);
+            if (fallingBlock && fallingBlock.some(([row, col]) => row === i && col === j)) {
+                cell.classList.remove(getBlockClass(players[player].currentBlock));
+                cell.classList.add('grid');
+            }
         }
-      }
     }
-  }
+}
 
 //renders block falling on screen.
 function renderFalling(player) {
-    const { fallingBlock,currentBlock } = players[player];
+    const { fallingBlock, currentBlock } = players[player];
     
     for (let i = 0; i < row; i++) {
         for (let j = 0; j < col; j++) {
@@ -162,10 +166,12 @@ function renderFalling(player) {
             if (fallingBlock.some(([row, col]) => row === i && col === j)) {
                 cell.classList.remove('grid');
                 cell.classList.add(getBlockClass(currentBlock));
-                console.log("celid",cell)
             }
+        }
     }
-}
+
+    // Generate a new preview block after rendering the current block
+    getNextBlock(player);
 }
 
 function getBlockClass(shape) {
@@ -187,7 +193,7 @@ function getBlockClass(shape) {
         return 'block'; // Default class
     }
 }
-  
+
 
 // Define the Tetris blocks
 const lblock = [
@@ -232,34 +238,6 @@ const zblock = [
     [1, 4]
 ];
 
-//gets random blocks for both players and starts game
-function getCurrentBlock(player) {
-    
-    const { fallingBlock,currentBlock } = players[player];
-    const blocks = [lblock, sblock, tblock, iblock, jblock, zblock];
-    const randomIndex = Math.floor(Math.random() * blocks.length);
-    const newBlock = blocks[randomIndex];
-    console.log('newBlock:', newBlock);
-
-    players[player].currentBlock = newBlock;
-    players[player].fallingBlock = newBlock;
-    console.log('fallingBlock before assignment:', players[player].fallingBlock);
-
-    console.log("this curblock", players[player].currentBlock);
-    createBlock(player); 
-    console.log('fallingBlock after assignment:', players[player].fallingBlock);
-
-}
-
-function getNextBlock(player) {
-    const blocks = [lblock, sblock, tblock, iblock, jblock, zblock];
-    const randomIndex = Math.floor(Math.random() * blocks.length);
-    const nextBlock = blocks[randomIndex];
-
-    // Render the next block in the preview container
-    renderPreview(player, nextBlock);
-}
-
 // Function to render the next block in the preview container
 function renderPreview(player, nextBlock) {
     const previewElement = document.getElementById(`preview${player}`);
@@ -276,15 +254,103 @@ function renderPreview(player, nextBlock) {
     });
 }
 
-// Set up arrays and grids
+// Modify getCurrentBlock to generate both falling and preview blocks
+function getCurrentBlock(player) {
+    const { fallingBlock,currentBlock, tetrisArray } = players[player];
+    const blocks = [lblock, sblock, tblock, iblock, jblock, zblock];
+    const randomIndex = Math.floor(Math.random() * blocks.length);
+    const newBlock = blocks[randomIndex];
+    console.log('newBlock:', newBlock);
+
+    players[player].currentBlock = newBlock;
+    players[player].fallingBlock = newBlock;
+    console.log('fallingBlock before assignment:', players[player].fallingBlock);
+
+    //check tetris array.
+    const canFit = newBlock.every(([row, col]) => tetrisArray[row][col] !== 2);
+    
+    //continue game
+    if (canFit) {
+        players[player].currentBlock = newBlock;
+        players[player].fallingBlock = newBlock;
+        createBlock(player);
+    //game over
+    } else {
+        console.log("Game over!");
+        gameOver= true;
+
+    }
+    console.log("this curblock", players[player].currentBlock);
+    createBlock(player); 
+    console.log('fallingBlock after assignment:', players[player].fallingBlock);
+}
+
+// Modify getNextBlock to generate a new preview block
+function getNextBlock(player) {
+    const blocks = [lblock, sblock, tblock, iblock, jblock, zblock];
+    const randomIndex = Math.floor(Math.random() * blocks.length);
+    const nextBlock = blocks[randomIndex];
+
+    // Render the next block in the preview container
+    renderPreview(player, nextBlock);
+}
+
+function moveBlockLeft(player) {
+    const { fallingBlock, tetrisArray } = players[player];
+    //check for collision with end of array or set block
+    const canMoveLeft = fallingBlock.every(([row, col]) => col > 0 && tetrisArray[row][col - 1] !== 2);
+  
+    if (canMoveLeft) {
+        //check for collision with end of array or set block
+        clearPreviousBlock(player);
+        players[player].fallingBlock = fallingBlock.map(([row, col]) => [row, col - 1]);
+        renderFalling(player);
+    }
+  }
+
+function moveBlockRight(player) {
+    const { fallingBlock, tetrisArray } = players[player];
+    //check for collision with end of array or set block
+    const canMoveRight = fallingBlock.every(([row, col]) => col < 9 && tetrisArray[row][col + 1] !== 2);
+    //update piecce and board
+    if (canMoveRight) {
+        clearPreviousBlock(player);
+        players[player].fallingBlock = fallingBlock.map(([row, col]) => [row, col + 1]);
+        renderFalling(player);
+    }
+  }
+
+  //check arrow keys for player 1 movement
+function handlePlayer1Movement(event) {
+    if (event.key === 'a') {
+        moveBlockLeft(player1);
+        } 
+    else if (event.key === 'd') {
+        moveBlockRight(player1);
+    }
+}
+
+function handlePlayer2Movement(event) {
+    if (event.key === 'ArrowLeft') {
+        moveBlockLeft(player2);
+    }
+    else if (event.key === 'ArrowRight') {
+        moveBlockRight(player2);
+    }
+}
+
+// Initialize arrays, grids, and start falling for both players
 setArray(player1);
 setArray(player2);
 createGrid(player1);
 createGrid(player2);
-console.log("p1", JSON.stringify(players[player1]));
-console.log("p1", players[player1]);
 getCurrentBlock(player1);
 getCurrentBlock(player2);
 getNextBlock(player1);
 getNextBlock(player2);
 startFalling(player1);
+startFalling(player2);
+//event listeners for movement
+document.addEventListener('keydown', handlePlayer1Movement);
+document.addEventListener('keydown', handlePlayer2Movement);
+
