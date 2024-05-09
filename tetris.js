@@ -266,10 +266,6 @@ function getCurrentBlock(player) {
     players[player].fallingBlock = newBlock;
     console.log('fallingBlock before assignment:', players[player].fallingBlock);
 
-    console.log("this curblock", players[player].currentBlock);
-    createBlock(player); 
-    console.log('fallingBlock after assignment:', players[player].fallingBlock);
-
     //check tetris array.
     const canFit = newBlock.every(([row, col]) => tetrisArray[row][col] !== 2);
     
@@ -284,6 +280,9 @@ function getCurrentBlock(player) {
         gameOver= true;
 
     }
+    console.log("this curblock", players[player].currentBlock);
+    createBlock(player); 
+    console.log('fallingBlock after assignment:', players[player].fallingBlock);
 }
 
 // Modify getNextBlock to generate a new preview block
@@ -296,6 +295,50 @@ function getNextBlock(player) {
     renderPreview(player, nextBlock);
 }
 
+function moveBlockLeft(player) {
+    const { fallingBlock, tetrisArray } = players[player];
+    //check for collision with end of array or set block
+    const canMoveLeft = fallingBlock.every(([row, col]) => col > 0 && tetrisArray[row][col - 1] !== 2);
+  
+    if (canMoveLeft) {
+        //check for collision with end of array or set block
+        clearPreviousBlock(player);
+        players[player].fallingBlock = fallingBlock.map(([row, col]) => [row, col - 1]);
+        renderFalling(player);
+    }
+  }
+
+function moveBlockRight(player) {
+    const { fallingBlock, tetrisArray } = players[player];
+    //check for collision with end of array or set block
+    const canMoveRight = fallingBlock.every(([row, col]) => col < col - 1 && tetrisArray[row][col + 1] !== 2);
+    //update piecce and board
+    if (canMoveRight) {
+        clearPreviousBlock(player);
+        players[player].fallingBlock = fallingBlock.map(([row, col]) => [row, col + 1]);
+        renderFalling(player);
+    }
+  }
+
+  //check arrow keys for player 1 movement
+function handlePlayer1Movement(event) {
+    if (event.key === 'a') {
+        moveBlockLeft(player1);
+        } 
+    else if (event.key === 'd') {
+        moveBlockRight(player1);
+    }
+}
+
+function handlePlayer2Movement(event) {
+    if (event.key === 'ArrowLeft') {
+        moveBlockLeft(player2);
+    }
+    else if (event.key === 'ArrowRight') {
+        moveBlockRight(player2);
+    }
+}
+
 // Initialize arrays, grids, and start falling for both players
 setArray(player1);
 setArray(player2);
@@ -306,5 +349,8 @@ getCurrentBlock(player2);
 getNextBlock(player1);
 getNextBlock(player2);
 startFalling(player1);
-startFalling(player1);
 startFalling(player2);
+//event listeners for movement
+document.addEventListener('keydown', handlePlayer1Movement);
+document.addEventListener('keydown', handlePlayer2Movement);
+
