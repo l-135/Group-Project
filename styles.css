@@ -124,4 +124,3 @@ body {
 .lblock:hover, .sblock:hover, .tblock:hover, .iblock:hover, .jblock:hover, .zblock:hover, .block:hover {
   transform: scale(1.1); /* Increase scale on hover */
 }
-
