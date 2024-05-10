@@ -175,6 +175,10 @@ function renderFalling(player) {
 }
 
 function getBlockClass(shape) {
+    if (shape === block) {
+        return 'block'; // Apply the 'block' class
+    }
+
     const shapeString = JSON.stringify(shape.sort());
 
     if (shapeString === JSON.stringify(lblock.sort())) {
@@ -196,6 +200,13 @@ function getBlockClass(shape) {
 
 
 // Define the Tetris blocks
+const block = [
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+];
+
 const lblock = [
     [0, 4],
     [1, 4],
@@ -257,7 +268,7 @@ function renderPreview(player, nextBlock) {
 // Modify getCurrentBlock to generate both falling and preview blocks
 function getCurrentBlock(player) {
     const { fallingBlock,currentBlock, tetrisArray } = players[player];
-    const blocks = [lblock, sblock, tblock, iblock, jblock, zblock];
+    const blocks = [block, lblock, sblock, tblock, iblock, jblock, zblock];
     const randomIndex = Math.floor(Math.random() * blocks.length);
     const newBlock = blocks[randomIndex];
     console.log('newBlock:', newBlock);
@@ -287,7 +298,7 @@ function getCurrentBlock(player) {
 
 // Modify getNextBlock to generate a new preview block
 function getNextBlock(player) {
-    const blocks = [lblock, sblock, tblock, iblock, jblock, zblock];
+    const blocks = [block, lblock, sblock, tblock, iblock, jblock, zblock];
     const randomIndex = Math.floor(Math.random() * blocks.length);
     const nextBlock = blocks[randomIndex];
 
