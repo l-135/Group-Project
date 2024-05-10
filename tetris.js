@@ -201,10 +201,10 @@ function getBlockClass(shape) {
 
 // Define the Tetris blocks
 const block = [
-    [0, 0],
-    [0, 1],
-    [1, 0],
-    [1, 1]
+    [0, 4],
+    [0, 5],
+    [1, 4],
+    [1, 5]
 ];
 
 const lblock = [
@@ -348,6 +348,15 @@ function handlePlayer2Movement(event) {
     else if (event.key === 'ArrowRight') {
         moveBlockRight(player2);
     }
+}
+
+let score = 0;
+const scoreDisplay = document.getElementById('score');
+
+// Function to update the score
+function updateScore(points) {
+    score += points;
+    scoreDisplay.textContent = score;
 }
 
 // Initialize arrays, grids, and start falling for both players
