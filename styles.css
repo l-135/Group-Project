@@ -7,6 +7,10 @@ body {
   padding: 0;
 }
 
+.player1 {
+  border-right: 2px solid dimgray; /* Add border to the right side */
+}
+
 .player1, .player2 {
   width: 50%;
   height: 100vh; /* Increased height */
@@ -30,7 +34,7 @@ body {
 .preview {
   width: 100px;
   height: 100px;
-  border: 2px solid #fff; /* White border */
+  border: 2px solid dimgray; /* White border */
   position: absolute;
   top: 10px; /* Adjusted position */
   left: 10px; /* Adjusted position */
@@ -120,4 +124,3 @@ body {
 .lblock:hover, .sblock:hover, .tblock:hover, .iblock:hover, .jblock:hover, .zblock:hover, .block:hover {
   transform: scale(1.1); /* Increase scale on hover */
 }
-
