@@ -1,6 +1,6 @@
 /* Updated CSS for a typical Tetris layout */
 body {
-  background-color: #000;
+  background-color: #333; /* Darker background color */
   color: #fff;
   font-family: Arial, sans-serif;
   margin: 0;
@@ -9,7 +9,7 @@ body {
 
 .player1, .player2 {
   width: 50%;
-  height: 720px; /* Increased height */
+  height: 100vh; /* Increased height */
   border: 4px solid #fff; /* White border */
   float: left;
   position: relative;
@@ -20,7 +20,7 @@ body {
 /* CSS for Tetris game with adjusted grid size and position */
 .board {
   width: 260px; /* Increase board width to accommodate larger cells */
-  height: 520px; /* Increase board height to accommodate larger cells */
+  height: 640px; /* Increase board height to accommodate larger cells */
   border: 2px solid black;
   margin: 10px auto; /* Center the board horizontally with a bit of top margin */
   box-sizing: border-box;
@@ -38,31 +38,86 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
-  background-color: #000; /* Black background */
+  background-color: #222; /* Darker background color */
 }
 
 .preview-cell {
-  border: 1px solid grey;
+  border: 1px solid #444; /* Darker border color */
   width: 23px;
   height: 23px;
-  background-color: transparent;
+  background-color: #333; /* Darker background color */
   display: inline-block;
 }
 
 /* CSS for Tetris grid cells */
 .grid, .block, .lblock, .iblock, .jblock, .zblock, .sblock, .tblock {
   width: 25px; /* Increase cell width */
-  height: 25px; /* Increase cell height */
-  border: 1px solid #ccc; /* Add border to create grid marks */
+  height: 28px; /* Increase cell height */
+  border: 1px solid #666; /* Darker border color */
   display: inline-block;
   box-sizing: border-box; /* Ensure the border is included in the box dimensions */
 }
 
 /* Add specific styles for each block type */
-.block { background-color: brown; }
-.lblock { background-color: orange; }
-.sblock { background-color: green; }
-.tblock { background-color: magenta; }
-.iblock { background-color: violet; }
-.jblock { background-color: red; }
-.zblock { background-color: blue; }
+.block { background-color: #FF3795; } /* Pink */
+.lblock { background-color: #FFA500; } /* Orange */
+.sblock { background-color: #32CD32; } /* Lime green */
+.tblock { background-color: #8A2BE2; } /* Blue violet */
+.iblock { background-color: #00CED1; } /* Dark turquoise */
+.jblock { background-color: #DC143C; } /* Crimson */
+.zblock { background-color: #1E90FF; } /* Dodger blue */
+
+
+/* Adjust block styles */
+.block, .lblock, .iblock, .jblock, .zblock, .sblock, .tblock {
+  width: 25px;
+  height: 25px;
+  border: none; /* Remove border */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Add shadow for 3D effect */
+  border-radius: 3px; /* Add border radius for rounded corners */
+}
+
+/* Ensure blocks are fully stacked without gaps */
+.board .grid {
+  margin: 0; /* Remove margin */
+  padding: 0; /* Remove padding */
+}
+
+/* Hover effect to make blocks pop out */
+.block:hover, .lblock:hover, .iblock:hover, .jblock:hover, .zblock:hover, .sblock:hover, .tblock:hover {
+  transform: scale(1.1); /* Increase scale on hover */
+}
+
+/* Add gradient for 3D effect */
+.lblock {
+  background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%); /* Orange */
+}
+
+.sblock {
+  background: linear-gradient(135deg, #32CD32 0%, #228B22 100%); /* Lime green */
+}
+
+.tblock {
+  background: linear-gradient(135deg, #8A2BE2 0%, #800080 100%); /* Blue violet */
+}
+
+.iblock {
+  background: linear-gradient(135deg, #00CED1 0%, #008B8B 100%); /* Dark turquoise */
+}
+
+.jblock {
+  background: linear-gradient(135deg, #DC143C 0%, #8B0000 100%); /* Crimson */
+}
+
+.zblock {
+  background: linear-gradient(135deg, #1E90FF 0%, #0000CD 100%); /* Dodger blue */
+}
+
+.block {
+  background: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%); /* Pink */
+}
+
+/* Add hover effect to make blocks pop out */
+.lblock:hover, .sblock:hover, .tblock:hover, .iblock:hover, .jblock:hover, .zblock:hover, .block:hover {
+  transform: scale(1.1); /* Increase scale on hover */
+}
