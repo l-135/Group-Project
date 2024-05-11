@@ -1,116 +1,239 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  background-image: url('https://i.gifer.com/1DDX.gif');
+  background-size: 1350px 800px;
+  background-position: center;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.start-screen {
+  text-align: center;
+  background-color: grey;
+  background-image: url('https://media4.giphy.com/media/dAWZiSMbMvObDWP3aA/giphy.gif?cid=ecf05e47zzxvpe6jpbsmkzivf2cv8oxfkm6xi9wyhfbjgywg&ep=v1_gifs_related&rid=giphy.gif&ct=g'); /* Replace 'your-gif-url.gif' with the URL of your GIF */
+  background-size: cover;
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  animation: coolAppear 0.5s ease-in-out, shake 2s infinite alternate;
+}
+
+.start-screen h1 {
+  font-size: 48px;
+  color: #fff;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  animation: neon 1.5s ease-in-out infinite alternate;
+}
+
+.start-screen p {
+  background-color: rgba(255, 255, 255, 0.4);
+  font-size: 24px;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  transition: background-color 0.3s ease;
+}
+
+.start-screen p:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.start-button {
+  background-color: #ff6b6b;
+  color: #fff;
+  padding: 15px 30px;
+  font-size: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.start-button:hover {
+  background-color: #ff5252;
+  transform: scale(1.05);
+}
+
+
+/* Neon glow animation */
+@keyframes neon {
+  from {
+    text-shadow: 0 0 10px #00f, 0 0 20px #00f, 0 0 30px #00f, 0 0 40px #00f, 0 0 70px #00f, 0 0 80px #00f, 0 0 100px #00f, 0 0 150px #00f;
+  }
+  to {
+    text-shadow: 0 0 5px #00f, 0 0 10px #00f, 0 0 15px #00f, 0 0 20px #00f, 0 0 35px #00f, 0 0 40px #00f, 0 0 50px #00f, 0 0 75px #00f;
+  }
+}
+
+/* Shaking animation */
+@keyframes shake {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(30px);
+  }
+}
+
+/* Other styles remain unchanged */
+
+
+
+
+
+
+
+.hidden {
+  display: none;
+}
+
+body {
+  background-color: #000; /* Black background */
+  background-image: url('https://wallpapercave.com/wp/wp2675338.jpg'); /* Tetris background image */
+  background-size: cover; /* Cover the entire background */
+  color: #fff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.player1 {
+  border-right: 4px solid white; /* Add border to the right side */
+}
+
 .player1, .player2 {
   width: 50%;
-  height: 700px;
-  border: 2px solid black;
+  height: 100vh; /* Increased height */
   float: left;
   position: relative;
   box-sizing: border-box;
   text-align: center;
 }
-.board{
-  width: 254px;
-  height: 504px;
-  border: 2px solid black;
-  margin: 0 auto;
+
+/* CSS for Tetris game with adjusted grid size and position */
+.board {
+  width: 264px; /* Increase board width to accommodate larger cells and border */
+  height: 644px; /* Increase board height to accommodate larger cells and border */
+  background-color: #111; /* Darker background color, similar to the preview block background */
+  margin: 10px auto; /* Center the board horizontally with a bit of top margin */
   box-sizing: border-box;
-  text-align: center;
+  position: relative; /* Position the board relative to its container */
+  outline: 4px solid rgba(255, 0, 0, 0.7); /* Lighter red glowing border around the grid */
+  box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.7); /* Lighter red glowing effect on the border */
+}
+
+.grid {
+  visibility: hidden; /* Hide the grid cells */
+}
+
+.score {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 20px;
+    color: #fff;
+    text-shadow: 1px 1px #000;
+    margin-bottom: 10px;
 }
 
 .preview {
-  width: 120px;
-  height: 120px;
-  border: 2px solid black;
-  position: absolute; /* Position the preview box absolutely */
-  top: 10px; /* Adjust top position as needed */
-  left: 10px; /* Adjust left position as needed */
+  width: 100px;
+  height: 100px;
+  border: 2px solid white; /* White border */
+  position: absolute;
+  top: 10px; /* Adjusted position */
+  left: 10px; /* Adjusted position */
   box-sizing: border-box;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
+  background-color: #222; /* Darker background color */
 }
 
 .preview-cell {
-  border: 1px solid grey;
-  width: 23px; /* Each cell takes up 100% of its grid area */
+  border: 1px solid #444; /* Darker border color */
+  width: 23px;
   height: 23px;
-  background-color: transparent;
+  background-color: #333; /* Darker background color */
   display: inline-block;
 }
 
-.grid{
-  border: 1px solid grey;
-  width: 23px;
-  height: 23px;
-  display: inline;
-  float: left;
-}
-.block{
-  border: 1px solid grey;
-  background-color: brown;
-  width: 23px;
-  height: 23px;
-  display: inline;
-  float: left;
-}
-.lblock{
-    border: 1px solid grey;
-    background-color: orange;
-    width: 23px;
-    height: 23px;
-    display: inline;
-    float: left;
+/* CSS for Tetris grid cells */
+.grid, .block, .lblock, .iblock, .jblock, .zblock, .sblock, .tblock {
+  width: 25px; /* Increase cell width */
+  height: 28px; /* Increase cell height */
+  border: 1px solid #666; /* Darker border color */
+  display: inline-block;
+  box-sizing: border-box; /* Ensure the border is included in the box dimensions */
 }
 
-.iblock{
-    border: 1px solid grey;
-    background-color: violet;
-    width: 23px;
-    height: 23px;
-    display: inline;
-    float: left;
+/* Add specific styles for each block type */
+.block { background-color: #FF3795; } /* Pink */
+.lblock { background-color: #FFA500; } /* Orange */
+.sblock { background-color: #32CD32; } /* Lime green */
+.tblock { background-color: #8A2BE2; } /* Blue violet */
+.iblock { background-color: #00CED1; } /* Dark turquoise */
+.jblock { background-color: #DC143C; } /* Crimson */
+.zblock { background-color: #1E90FF; } /* Dodger blue */
+
+
+/* Adjust block styles */
+.block, .lblock, .iblock, .jblock, .zblock, .sblock, .tblock {
+  width: 25px;
+  border: none; /* Remove border */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Add shadow for 3D effect */
+  border-radius: 3px; /* Add border radius for rounded corners */
 }
 
-.jblock{
-    border: 1px solid grey;
-    background-color: red;
-    width: 23px;
-    height: 23px;
-    display: inline;
-    float: left;
+/* Ensure blocks are fully stacked without gaps */
+.board .grid {
+  margin: 0; /* Remove margin */
+  padding: 0; /* Remove padding */
 }
 
-.zblock{
-    border: 1px solid grey;
-    background-color: blue;
-    width: 23px;
-    height: 23px;
-    display: inline;
-    float: left;
+/* Hover effect to make blocks pop out */
+.block:hover, .lblock:hover, .iblock:hover, .jblock:hover, .zblock:hover, .sblock:hover, .tblock:hover {
+  transform: scale(1.1); /* Increase scale on hover */
 }
 
-.sblock{
-    border: 1px solid grey;
-    background-color: green;
-    width: 23px;
-    height: 23px;
-    display: inline;
-    float: left;
+.lblock {
+  box-shadow: 0px 0px 20px rgba(255, 140, 0, 0.5); /* Lighter Orange glowing effect */
 }
 
-.tblock{
-    border: 1px solid grey;
-    background-color: magenta;
-    width: 23px;
-    height: 23px;
-    display: inline;
-    float: left;
+.sblock {
+  box-shadow: 0px 0px 20px rgba(144, 238, 144, 0.5); /* Lighter Green glowing effect */
 }
 
-/* Define specific block background colors */
-.preview-cell.block { background-color: brown !important; }
-.preview-cell.lblock { background-color: orange !important; }
-.preview-cell.sblock { background-color: green !important; }
-.preview-cell.tblock { background-color: magenta !important; }
-.preview-cell.iblock { background-color: violet !important; }
-.preview-cell.jblock { background-color: red !important; }
-.preview-cell.zblock { background-color: blue !important; }
+.tblock {
+  box-shadow: 0px 0px 20px rgba(128, 0, 128, 0.5); /* Purple glowing effect */
+}
+
+.iblock {
+  box-shadow: 0px 0px 20px rgba(0, 0, 255, 0.5); /* Blue glowing effect */
+}
+
+.jblock {
+  box-shadow: 0px 0px 20px rgba(255, 99, 71, 0.5); /* Lighter Red glowing effect */
+}
+
+.zblock {
+  box-shadow: 0px 0px 20px rgba(173, 216, 230, 0.5); /* Light Blue glowing effect */
+}
+
+/* Make .block class pink */
+.block {
+  box-shadow: 0px 0px 20px rgba(255, 192, 203, 0.5); /* Pink glowing effect */
+}
+
+/* Add hover effect to make blocks pop out */
+.lblock:hover, .sblock:hover, .tblock:hover, .iblock:hover, .jblock:hover, .zblock:hover, .block:hover {
+  transform: scale(1.1); /* Increase scale on hover */
+}
+
