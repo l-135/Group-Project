@@ -60,6 +60,16 @@
   transform: scale(1.05);
 }
 
+
+/* Neon glow animation */
+@keyframes neon {
+  from {
+    text-shadow: 0 0 10px #00f, 0 0 20px #00f, 0 0 30px #00f, 0 0 40px #00f, 0 0 70px #00f, 0 0 80px #00f, 0 0 100px #00f, 0 0 150px #00f;
+  }
+  to {
+    text-shadow: 0 0 5px #00f, 0 0 10px #00f, 0 0 15px #00f, 0 0 20px #00f, 0 0 35px #00f, 0 0 40px #00f, 0 0 50px #00f, 0 0 75px #00f;
+  }
+}
 /* Updated CSS for a typical Tetris layout */
 /* Updated CSS for a typical Tetris layout */
 body {
