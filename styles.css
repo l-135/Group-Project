@@ -13,7 +13,16 @@
   justify-content: center;
   align-items: center;
 }
-
+.start-screen {
+  text-align: center;
+  background-color: grey;
+  background-image: url('https://media4.giphy.com/media/dAWZiSMbMvObDWP3aA/giphy.gif?cid=ecf05e47zzxvpe6jpbsmkzivf2cv8oxfkm6xi9wyhfbjgywg&ep=v1_gifs_related&rid=giphy.gif&ct=g'); /* Replace 'your-gif-url.gif' with the URL of your GIF */
+  background-size: cover;
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  animation: coolAppear 0.5s ease-in-out, shake 2s infinite alternate;
+}
 
 
 
