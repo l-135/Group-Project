@@ -2,7 +2,7 @@
 /* Updated CSS for a typical Tetris layout */
 body {
   background-color: #000; /* Black background */
-  background-image: url('https://wallpapers.com/images/high/i-tetris-tile-nwo0im1k4q19beuh.webp'); /* Tetris background image */
+  background-image: url('https://wallpapercave.com/wp/wp2675338.jpg'); /* Tetris background image */
   background-size: cover; /* Cover the entire background */
   color: #fff;
   font-family: Arial, sans-serif;
@@ -27,12 +27,16 @@ body {
 .board {
   width: 264px; /* Increase board width to accommodate larger cells and border */
   height: 644px; /* Increase board height to accommodate larger cells and border */
-  background-color: #000; /* Darker background color, similar to the preview block background */
+  background-color: #111; /* Darker background color, similar to the preview block background */
   margin: 10px auto; /* Center the board horizontally with a bit of top margin */
   box-sizing: border-box;
   position: relative; /* Position the board relative to its container */
   outline: 4px solid rgba(255, 0, 0, 0.7); /* Lighter red glowing border around the grid */
   box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.7); /* Lighter red glowing effect on the border */
+}
+
+.grid {
+  visibility: hidden; /* Hide the grid cells */
 }
 
 .score {
