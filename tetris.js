@@ -95,7 +95,7 @@ function startFalling(player) {
     const { tetrisArray, fallingBlock } = players[player];
 
     // Calculate the new positions of the falling block cells
-    const newPositions = fallingBlock.map(([row, col]) => [row + 1, col]);
+    let newPositions = fallingBlock.map(([row, col]) => [row + 1, col]);
 
     // Check if any of the new positions are invalid or collide with occupied cells
     const canMoveDown = newPositions.every(([newRow, newCol]) => {
@@ -120,7 +120,6 @@ function startFalling(player) {
 
         // Update the game board with the new position of the falling block
         updateArray(player);
-        console.log("newpos in playeraray", players[player].fallingBlock);
         renderFalling(player);
 
         // continue falling
@@ -138,6 +137,36 @@ function startFalling(player) {
 
         // Start falling for the next block after
         setTimeout(() => startFalling(player), 500);
+    }
+}
+
+// Modified function to handle push down action for only the current player
+function pushDown(player) {
+    if (gameOver) {
+        return;
+    }
+    const { fallingBlock } = players[player];
+
+    // Keep track of whether the push down action should affect only the current player
+    let onlyCurrentPlayer = true;
+
+    // Check if the falling block for the current player can move down
+    const { tetrisArray } = players[player];
+    let newPositions = fallingBlock.map(([row, col]) => [row + 1, col]);
+    const canMoveDown = newPositions.every(([newRow, newCol]) => {
+        if (newRow >= tetrisArray.length || tetrisArray[newRow][newCol] === 2) {
+            onlyCurrentPlayer = false;
+            return false;
+        }
+        return true;
+    });
+
+    // If the current player's falling block can move down, apply the push down action
+    if (canMoveDown && onlyCurrentPlayer) {
+        clearPreviousBlock(player);
+        players[player].fallingBlock = newPositions;
+        updateArray(player);
+        renderFalling(player);
     }
 }
 
@@ -468,21 +497,15 @@ function rotateBlock(player) {
     }
 }
 
-
-
-
-
-
-
-
 // Check arrow keys for player 1 movement
 function handlePlayer1Movement(event) {
     if (event.key === 'a') {
         moveBlockLeft(player1);
     } else if (event.key === 'd') {
         moveBlockRight(player1);
+    } else if (event.key === 's') { // Add 's' key for pushing down for Player 1
+        pushDown(player1);
     }
-   
 }
 
 function handlePlayer2Movement(event) {
@@ -490,19 +513,9 @@ function handlePlayer2Movement(event) {
         moveBlockLeft(player2);
     } else if (event.key === 'ArrowRight') {
         moveBlockRight(player2);
-    } //else if (event.key === 'ArrowUp') {
-        //rotateBlock(player2);
-    //}
-  
-}
-
-let score = 0;
-const scoreDisplay = document.getElementById('score');
-
-// Function to update the score
-function updateScore(points) {
-    score += points;
-    scoreDisplay.textContent = score;
+    } else if (event.key === 'ArrowDown') { // Add 'ArrowDown' key for pushing down for Player 2
+        pushDown(player2);
+    }
 }
 
 // Event listener for game start
@@ -517,29 +530,25 @@ document.getElementById('start-button').addEventListener('click', () => {
     getNextBlock(player2);
     startFalling(player1);
     startFalling(player2);
-    // Event listeners for movement
+    // Add event listeners for player 1 and player 2 movement, rotation, and pushing down
     document.addEventListener('keydown', handlePlayer1Movement);
-    document.addEventListener('keydown', handlePlayer2Movement);
     document.addEventListener('keydown', handlePlayer1Rotation);
+    document.addEventListener('keydown', handlePlayer2Movement);
     document.addEventListener('keydown', handlePlayer2Rotation);
     document.getElementById('start-overlay').classList.add('hidden');
 });
 
 // Function to handle rotation for Player 1
 function handlePlayer1Rotation(event) {
-    if (event.key === 'q') { // Rotate counterclockwise for Player 1
-        rotateBlock(player1, 'counterclockwise');
-    } else if (event.key === 'w') { // Rotate clockwise for Player 1
+    if (event.key === 'w') { // Rotate clockwise for Player 1
         rotateBlock(player1, 'clockwise');
     }
 }
 
 // Function to handle rotation for Player 2
 function handlePlayer2Rotation(event) {
-    if (event.key === 'ArrowDown') { // Rotate counterclockwise for Player 2
-        rotateBlock(player2, 'counterclockwise');
-    } else if (event.key === 'ArrowUp') { // Rotate clockwise for Player 2
+    if (event.key === 'ArrowUp') { // Rotate clockwise for Player 2
         rotateBlock(player2, 'clockwise');
-    }
+    } 
 }
 
