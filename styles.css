@@ -84,14 +84,6 @@
   }
 }
 
-/* Other styles remain unchanged */
-
-
-
-
-
-
-
 .hidden {
   display: none;
 }
@@ -188,8 +180,9 @@ body {
 .block, .lblock, .iblock, .jblock, .zblock, .sblock, .tblock {
   width: 25px;
   border: none; /* Remove border */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Add shadow for 3D effect */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.3) inset; /* Add soft shadow and glowing effect */
   border-radius: 3px; /* Add border radius for rounded corners */
+background-image: linear-gradient(to bottom right, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.3)); /* Add gradient for depth */
 }
 
 /* Ensure blocks are fully stacked without gaps */
