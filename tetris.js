@@ -13,14 +13,16 @@ const players = {
         tetrisArray: [],
         currentBlock: null,
         fallingBlock: null,
-        nextBlock: null
+        nextBlock: null,
+        blockOrientation: 0
     },
     2: {
         board: board2,
         tetrisArray: [],
         currentBlock: null,
         fallingBlock: null,
-        nextBlock: null
+        nextBlock: null,
+        blockOrientation: 0
     }
 };
 
@@ -267,7 +269,7 @@ function renderPreview(player, nextBlock) {
 
 // Modify getCurrentBlock to generate both falling and preview blocks
 function getCurrentBlock(player) {
-    const { fallingBlock,currentBlock, tetrisArray } = players[player];
+    const { fallingBlock,currentBlock, tetrisArray ,blockOrientation} = players[player];
     const blocks = [block, lblock, sblock, tblock, iblock, jblock, zblock];
     const randomIndex = Math.floor(Math.random() * blocks.length);
     const newBlock = blocks[randomIndex];
@@ -284,6 +286,7 @@ function getCurrentBlock(player) {
     if (canFit) {
         players[player].currentBlock = newBlock;
         players[player].fallingBlock = newBlock;
+        players[player].blockOrientation = 0;
         createBlock(player);
     //game over
     } else {
@@ -331,6 +334,62 @@ function moveBlockRight(player) {
     }
   }
 
+
+function rotateBlock(player) {
+    const { fallingBlock, currentBlock, tetrisArray,blockOrientation} = players[player];
+    
+    let offsets;
+    //get block and offset
+    switch (getBlockClass(currentBlock)) {
+        case 'lblock':
+            switch (blockOrientation) {
+                case 0:
+                    offsets = [[1, 1], [0, 0], [-1, -1], [0, -2]];
+                    players[player].blockOrientation++;
+                    break;
+                case 1:
+                    offsets = [[1, -1], [0, 0], [-1, 1], [-2, 0]];
+                    players[player].blockOrientation++;
+                    break;
+                case 2:
+                    offsets = [[-1, -1], [0, 0], [1, 1], [0, 2]];
+                    players[player].blockOrientation++;
+                    break;
+                case 3:
+                    offsets = [[-1, 1], [0, 0], [1, -1], [2, 0]]; 
+                    players[player].blockOrientation = 0;
+                    break;
+                }
+            break;
+        default:
+            return;
+      }
+    
+      // Calculate the new rotated positions
+      const newPositions = fallingBlock.map(([row, col], index) => {
+        const [rowOffset, colOffset] = offsets[index];
+        const newRow = row + rowOffset;
+        const newCol = col + colOffset;
+        return [newRow, newCol];
+      });
+    
+      // check for collisions with new rotated piece
+      const canRotate = newPositions.every(([newRow, newCol]) =>
+        newRow >= 0 &&
+        newRow < tetrisArray.length &&
+        newCol >= 0 &&
+        newCol < tetrisArray[0].length &&
+        tetrisArray[newRow][newCol] !== 2
+      );
+      //apply offset and render
+      if (canRotate) {
+        clearPreviousBlock(player);
+        players[player].fallingBlock = newPositions;
+        renderFalling(player);
+      }
+}
+
+
   //check arrow keys for player 1 movement
 function handlePlayer1Movement(event) {
     if (event.key === 'a') {
@@ -347,6 +406,9 @@ function handlePlayer2Movement(event) {
     }
     else if (event.key === 'ArrowRight') {
         moveBlockRight(player2);
+    }
+    else if (event.key === 'ArrowUp') {
+        rotateBlock(player2);
     }
 }
 
