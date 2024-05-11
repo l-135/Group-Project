@@ -335,11 +335,11 @@ function moveBlockRight(player) {
 
 function rotateBlock(player) {
     const { fallingBlock, currentBlock, tetrisArray, blockOrientation } = players[player];
-
+    
     let offsets;
-    // Get block and offset
     switch (getBlockClass(currentBlock)) {
         case 'lblock':
+            // Rotation logic for L-block
             switch (blockOrientation) {
                 case 0:
                     offsets = [[1, 1], [0, 0], [-1, -1], [0, -2]];
@@ -354,7 +354,90 @@ function rotateBlock(player) {
                     players[player].blockOrientation++;
                     break;
                 case 3:
-                    offsets = [[-1, 1], [0, 0], [1, -1], [2, 0]];
+                    offsets = [[-1, 1], [0, 0], [1, -1], [2, 0]]; 
+                    players[player].blockOrientation = 0;
+                    break;
+            }
+            break;
+        case 'sblock':
+            // Rotation logic for S-block
+            switch (blockOrientation) {
+                case 0:
+                    offsets = [[-1, 1], [0, 0], [0, 1], [1, 0]];
+                    players[player].blockOrientation++;
+                    break;
+                case 1:
+                    offsets = [[1, 1], [0, 0], [1, -1], [0, -2]];
+                    players[player].blockOrientation = 0;
+                    break;
+            }
+            break;
+        case 'tblock':
+            // Rotation logic for T-block
+            switch (blockOrientation) {
+                case 0:
+                    offsets = [[-1, 0], [0, -1], [0, 0], [0, 1]];
+                    players[player].blockOrientation++;
+                    break;
+                case 1:
+                    offsets = [[0, -1], [-1, 0], [0, 0], [1, 0]];
+                    players[player].blockOrientation++;
+                    break;
+                case 2:
+                    offsets = [[1, 0], [0, 1], [0, 0], [0, -1]];
+                    players[player].blockOrientation++;
+                    break;
+                case 3:
+                    offsets = [[0, 1], [1, 0], [0, 0], [-1, 0]];
+                    players[player].blockOrientation = 0;
+                    break;
+            }
+            break;
+        case 'iblock':
+            // Rotation logic for I-block
+            switch (blockOrientation) {
+                case 0:
+                case 2:
+                    offsets = [[-1, 0], [0, 0], [1, 0], [2, 0]];
+                    players[player].blockOrientation++;
+                    break;
+                case 1:
+                case 3:
+                    offsets = [[0, -1], [0, 0], [0, 1], [0, 2]];
+                    players[player].blockOrientation++;
+                    break;
+            }
+            break;
+        case 'jblock':
+            // Rotation logic for J-block
+            switch (blockOrientation) {
+                case 0:
+                    offsets = [[1, -1], [0, 0], [-1, 1], [0, 2]];
+                    players[player].blockOrientation++;
+                    break;
+                case 1:
+                    offsets = [[-1, -1], [0, 0], [1, 1], [2, 0]];
+                    players[player].blockOrientation++;
+                    break;
+                case 2:
+                    offsets = [[-1, 1], [0, 0], [1, -1], [0, -2]];
+                    players[player].blockOrientation++;
+                    break;
+                case 3:
+                    offsets = [[1, 1], [0, 0], [-1, -1], [-2, 0]];
+                    players[player].blockOrientation = 0;
+                    break;
+            }
+            break;
+        case 'zblock':
+            // Rotation logic for Z-block
+            switch (blockOrientation) {
+                case 0:
+                    offsets = [[-1, -1], [0, 0], [0, -1], [1, 0]];
+                    players[player].blockOrientation++;
+                    break;
+                case 1:
+                    offsets = [[1, -1], [0, 0], [1, 1], [0, 2]];
                     players[player].blockOrientation = 0;
                     break;
             }
@@ -362,16 +445,14 @@ function rotateBlock(player) {
         default:
             return;
     }
-
-    // Calculate the new rotated positions
+    
     const newPositions = fallingBlock.map(([row, col], index) => {
         const [rowOffset, colOffset] = offsets[index];
         const newRow = row + rowOffset;
         const newCol = col + colOffset;
         return [newRow, newCol];
     });
-
-    // Check for collisions with new rotated piece
+    
     const canRotate = newPositions.every(([newRow, newCol]) =>
         newRow >= 0 &&
         newRow < tetrisArray.length &&
@@ -379,13 +460,20 @@ function rotateBlock(player) {
         newCol < tetrisArray[0].length &&
         tetrisArray[newRow][newCol] !== 2
     );
-    // Apply offset and render
+    
     if (canRotate) {
         clearPreviousBlock(player);
         players[player].fallingBlock = newPositions;
         renderFalling(player);
     }
 }
+
+
+
+
+
+
+
 
 // Check arrow keys for player 1 movement
 function handlePlayer1Movement(event) {
@@ -394,6 +482,7 @@ function handlePlayer1Movement(event) {
     } else if (event.key === 'd') {
         moveBlockRight(player1);
     }
+   
 }
 
 function handlePlayer2Movement(event) {
@@ -401,9 +490,10 @@ function handlePlayer2Movement(event) {
         moveBlockLeft(player2);
     } else if (event.key === 'ArrowRight') {
         moveBlockRight(player2);
-    } else if (event.key === 'ArrowUp') {
-        rotateBlock(player2);
-    }
+    } //else if (event.key === 'ArrowUp') {
+        //rotateBlock(player2);
+    //}
+  
 }
 
 let score = 0;
@@ -430,8 +520,26 @@ document.getElementById('start-button').addEventListener('click', () => {
     // Event listeners for movement
     document.addEventListener('keydown', handlePlayer1Movement);
     document.addEventListener('keydown', handlePlayer2Movement);
+    document.addEventListener('keydown', handlePlayer1Rotation);
+    document.addEventListener('keydown', handlePlayer2Rotation);
     document.getElementById('start-overlay').classList.add('hidden');
 });
 
+// Function to handle rotation for Player 1
+function handlePlayer1Rotation(event) {
+    if (event.key === 'q') { // Rotate counterclockwise for Player 1
+        rotateBlock(player1, 'counterclockwise');
+    } else if (event.key === 'w') { // Rotate clockwise for Player 1
+        rotateBlock(player1, 'clockwise');
+    }
+}
 
+// Function to handle rotation for Player 2
+function handlePlayer2Rotation(event) {
+    if (event.key === 'ArrowDown') { // Rotate counterclockwise for Player 2
+        rotateBlock(player2, 'counterclockwise');
+    } else if (event.key === 'ArrowUp') { // Rotate clockwise for Player 2
+        rotateBlock(player2, 'clockwise');
+    }
+}
 
