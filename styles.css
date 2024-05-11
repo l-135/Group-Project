@@ -31,7 +31,19 @@
   animation: neon 1.5s ease-in-out infinite alternate;
 }
 
+.start-screen p {
+  background-color: rgba(255, 255, 255, 0.4);
+  font-size: 24px;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  transition: background-color 0.3s ease;
+}
 
+.start-screen p:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+}
 
 
 
