@@ -6,6 +6,17 @@ const board1 = document.getElementById('board1');
 const board2 = document.getElementById('board2');
 let gameOver = false;
 
+//bloctypes for array
+const emptyCell = 0;
+const fallingCell = 1;
+const bCell = 2;
+const lCell = 3;
+const sCell = 4;
+const tCell = 5;
+const iCell = 6;
+const jcell = 7;
+const zcell = 8;
+
 // Player objects
 const players = {
     1: {
@@ -104,8 +115,8 @@ function startFalling(player) {
             return false;
         }
 
-        // Check if the new position collides with a set block
-        if (tetrisArray[newRow][newCol] === 2) {
+        // Check if a set block is found
+        if (tetrisArray[newRow][newCol] !== emptyCell && tetrisArray[newRow][newCol] !== fallingCell) {
             return false;
         }
 
@@ -128,6 +139,8 @@ function startFalling(player) {
         // Block is set and cannot move
         // Update the tetrisArray with the fallingBlock position 2
         updateArray(player, true);
+
+        checkLineBreak(player);
 
         // Clear the fallingBlock
         players[player].fallingBlock = null;
@@ -171,6 +184,7 @@ function pushDown(player) {
 }
 
 // Clears falling block from screen
+
 function clearPreviousBlock(player) {
     const { fallingBlock } = players[player];
 
@@ -204,6 +218,75 @@ function renderFalling(player) {
     // Generate a new preview block after rendering the current block
     getNextBlock(player);
 }
+
+function checkLineBreak(player){
+    const {tetrisArray} = players[player];
+    for (let i = tetrisArray.length - 1; i >= 0; i--) {
+        //checks if each cell is occupied
+        const isLineBreak = tetrisArray[i].every((cell) => cell != emptyCell && cell != fallingCell);
+
+        if (isLineBreak) {
+            // Remove the full row
+            tetrisArray.splice(i, 1);
+
+            // Add a new empty line at the top
+            tetrisArray.unshift(new Array(col).fill(0));
+
+            // Update the game board
+            updateBoard(player);
+        }
+    }
+}
+
+function updateBoard(player){
+    const { tetrisArray, board } = players[player];
+    // Clear current board
+    board.innerHTML = '';
+
+    // Redraw the game board based on the updated tetrisArray
+    for (let i = 0; i < row; i++) {
+        for (let j = 0; j < col; j++) {
+            const cell = document.createElement('div');
+            cell.classList.add('grid');
+            cell.id = player + '-' + i + '-' + j;
+    
+            switch (tetrisArray[i][j]) {
+                case bCell:
+                    cell.classList.remove('grid');
+                    cell.classList.add('block');
+                    break;
+                case lCell:
+                    cell.classList.remove('grid');
+                    cell.classList.add('lblock');
+                    break;
+                case sCell:
+                    cell.classList.remove('grid');
+                    cell.classList.add('sblock');
+                    break;
+                case tCell:
+                    cell.classList.remove('grid');
+                    cell.classList.add('tblock');
+                    break;
+                case iCell:
+                    cell.classList.remove('grid');
+                    cell.classList.add('iblock');
+                    break;
+                case jcell:
+                    cell.classList.remove('grid');
+                    cell.classList.add('jblock');
+                    break;
+                case zcell:
+                    cell.classList.remove('grid');
+                    cell.classList.add('zblock');
+                    break;
+                default:
+                    break;
+            }
+    
+            board.appendChild(cell);
+        }
+    }
+}   
 
 function getBlockClass(shape) {
     if (shape === block) {
