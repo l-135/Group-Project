@@ -1,9 +1,9 @@
-.overlay{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%
-    height: 100%;
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.7);
   background-image: url('https://i.gifer.com/1DDX.gif');
   background-size: 1350px 800px;
@@ -13,6 +13,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .start-screen {
   text-align: center;
   background-color: grey;
@@ -23,6 +24,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   animation: coolAppear 0.5s ease-in-out, shake 2s infinite alternate;
 }
+
 .start-screen h1 {
   font-size: 48px;
   color: #fff;
@@ -55,6 +57,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
 .start-button:hover {
   background-color: #ff5252;
   transform: scale(1.05);
@@ -71,7 +74,6 @@
   }
 }
 
-
 /* Shaking animation */
 @keyframes shake {
   from {
@@ -81,8 +83,19 @@
     transform: translateX(30px);
   }
 }
-/* Updated CSS for a typical Tetris layout */
-/* Updated CSS for a typical Tetris layout */
+
+/* Other styles remain unchanged */
+
+
+
+
+
+
+
+.hidden {
+  display: none;
+}
+
 body {
   background-color: #000; /* Black background */
   background-image: url('https://wallpapercave.com/wp/wp2675338.jpg'); /* Tetris background image */
@@ -191,44 +204,36 @@ body {
 }
 
 .lblock {
-  background-image: url('orange_block_texture.png'), radial-gradient(circle, rgba(255, 140, 0, 0.5), transparent); /* Lighter Orange */
   box-shadow: 0px 0px 20px rgba(255, 140, 0, 0.5); /* Lighter Orange glowing effect */
 }
 
 .sblock {
-  background-image: url('green_block_texture.png'), radial-gradient(circle, rgba(144, 238, 144, 0.5), transparent); /* Lighter Green */
   box-shadow: 0px 0px 20px rgba(144, 238, 144, 0.5); /* Lighter Green glowing effect */
 }
 
 .tblock {
-  background-image: url('purple_block_texture.png'), radial-gradient(circle, rgba(128, 0, 128, 0.5), transparent); /* Purple */
   box-shadow: 0px 0px 20px rgba(128, 0, 128, 0.5); /* Purple glowing effect */
 }
 
 .iblock {
-  background-image: url('blue_block_texture.png'), radial-gradient(circle, rgba(0, 0, 255, 0.5), transparent); /* Blue */
   box-shadow: 0px 0px 20px rgba(0, 0, 255, 0.5); /* Blue glowing effect */
 }
 
 .jblock {
-  background-image: url('dark_blue_block_texture.png'), radial-gradient(circle, rgba(255, 99, 71, 0.5), transparent); /* Lighter Red */
   box-shadow: 0px 0px 20px rgba(255, 99, 71, 0.5); /* Lighter Red glowing effect */
 }
 
 .zblock {
-  background-image: url('light_blue_block_texture.png'), radial-gradient(circle, rgba(173, 216, 230, 0.5), transparent); /* Light Blue */
   box-shadow: 0px 0px 20px rgba(173, 216, 230, 0.5); /* Light Blue glowing effect */
 }
 
 /* Make .block class pink */
 .block {
-  background-image: url('pink_block_texture.png'), radial-gradient(circle, rgba(255, 192, 203, 0.5), transparent); /* Pink */
   box-shadow: 0px 0px 20px rgba(255, 192, 203, 0.5); /* Pink glowing effect */
 }
-
-
 
 /* Add hover effect to make blocks pop out */
 .lblock:hover, .sblock:hover, .tblock:hover, .iblock:hover, .jblock:hover, .zblock:hover, .block:hover {
   transform: scale(1.1); /* Increase scale on hover */
 }
+
