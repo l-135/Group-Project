@@ -28,7 +28,9 @@ body {
   margin: 10px auto; /* Center the board horizontally with a bit of top margin */
   box-sizing: border-box;
   position: relative; /* Position the board relative to its container */
-  outline: 4px solid red; /* Red border around the grid */
+  outline: 4px solid rgba(255, 0, 0, 0.7); /* Lighter red glowing border around the grid */
+  box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.7); /* Lighter red glowing effect on the border */
+
 }
 
 .score {
@@ -99,34 +101,43 @@ body {
   transform: scale(1.1); /* Increase scale on hover */
 }
 
-/* Add gradient for 3D effect */
 .lblock {
-  background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%); /* Orange */
+  background-image: url('orange_block_texture.png'), radial-gradient(circle, rgba(255, 140, 0, 0.5), transparent); /* Lighter Orange */
+  box-shadow: 0px 0px 20px rgba(255, 140, 0, 0.5); /* Lighter Orange glowing effect */
 }
 
 .sblock {
-  background: linear-gradient(135deg, #32CD32 0%, #228B22 100%); /* Lime green */
+  background-image: url('green_block_texture.png'), radial-gradient(circle, rgba(144, 238, 144, 0.5), transparent); /* Lighter Green */
+  box-shadow: 0px 0px 20px rgba(144, 238, 144, 0.5); /* Lighter Green glowing effect */
 }
 
 .tblock {
-  background: linear-gradient(135deg, #8A2BE2 0%, #800080 100%); /* Blue violet */
+  background-image: url('purple_block_texture.png'), radial-gradient(circle, rgba(128, 0, 128, 0.5), transparent); /* Purple */
+  box-shadow: 0px 0px 20px rgba(128, 0, 128, 0.5); /* Purple glowing effect */
 }
 
 .iblock {
-  background: linear-gradient(135deg, #00CED1 0%, #008B8B 100%); /* Dark turquoise */
+  background-image: url('blue_block_texture.png'), radial-gradient(circle, rgba(0, 0, 255, 0.5), transparent); /* Blue */
+  box-shadow: 0px 0px 20px rgba(0, 0, 255, 0.5); /* Blue glowing effect */
 }
 
 .jblock {
-  background: linear-gradient(135deg, #DC143C 0%, #8B0000 100%); /* Crimson */
+  background-image: url('dark_blue_block_texture.png'), radial-gradient(circle, rgba(255, 99, 71, 0.5), transparent); /* Lighter Red */
+  box-shadow: 0px 0px 20px rgba(255, 99, 71, 0.5); /* Lighter Red glowing effect */
 }
 
 .zblock {
-  background: linear-gradient(135deg, #1E90FF 0%, #0000CD 100%); /* Dodger blue */
+  background-image: url('light_blue_block_texture.png'), radial-gradient(circle, rgba(173, 216, 230, 0.5), transparent); /* Light Blue */
+  box-shadow: 0px 0px 20px rgba(173, 216, 230, 0.5); /* Light Blue glowing effect */
 }
 
+/* Make .block class pink */
 .block {
-  background: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%); /* Pink */
+  background-image: url('pink_block_texture.png'), radial-gradient(circle, rgba(255, 192, 203, 0.5), transparent); /* Pink */
+  box-shadow: 0px 0px 20px rgba(255, 192, 203, 0.5); /* Pink glowing effect */
 }
+
+
 
 /* Add hover effect to make blocks pop out */
 .lblock:hover, .sblock:hover, .tblock:hover, .iblock:hover, .jblock:hover, .zblock:hover, .block:hover {
