@@ -6,7 +6,7 @@ const board1 = document.getElementById('board1');
 const board2 = document.getElementById('board2');
 let gameOver = false;
 
-//player objects
+// Player objects
 const players = {
     1: {
         board: board1,
@@ -51,9 +51,9 @@ function setArray(player) {
     }
 }
 
-//displays block on top of screen
+// Displays block on top of screen
 function createBlock(player) {
-    const {currentBlock} = players[player];
+    const { currentBlock } = players[player];
     // Draw the currentBlock
     for (let i = 0; i < row; i++) {
         for (let j = 0; j < col; j++) {
@@ -67,7 +67,7 @@ function createBlock(player) {
     }
 }
 
-//updates array as piece is falling on board 1 = falling block, 2 = set block
+// Updates array as piece is falling on board 1 = falling block, 2 = set block
 function updateArray(player, isSettingBlock = false) {
     const { tetrisArray, fallingBlock } = players[player];
 
@@ -109,7 +109,7 @@ function startFalling(player) {
             return false;
         }
 
-       //if no colisions return true
+        // if no collisions return true
         return true;
     });
 
@@ -120,7 +120,7 @@ function startFalling(player) {
 
         // Update the game board with the new position of the falling block
         updateArray(player);
-        console.log("newpos in playeraray",players[player].fallingBlock);
+        console.log("newpos in playeraray", players[player].fallingBlock);
         renderFalling(player);
 
         // continue falling
@@ -141,7 +141,7 @@ function startFalling(player) {
     }
 }
 
-//clears falling block from screen
+// Clears falling block from screen
 function clearPreviousBlock(player) {
     const { fallingBlock } = players[player];
 
@@ -157,10 +157,10 @@ function clearPreviousBlock(player) {
     }
 }
 
-//renders block falling on screen.
+// Renders block falling on screen.
 function renderFalling(player) {
     const { fallingBlock, currentBlock } = players[player];
-    
+
     for (let i = 0; i < row; i++) {
         for (let j = 0; j < col; j++) {
             const cellId = `${player}-${i}-${j}`;
@@ -199,7 +199,6 @@ function getBlockClass(shape) {
         return 'block'; // Default class
     }
 }
-
 
 // Define the Tetris blocks
 const block = [
@@ -269,7 +268,7 @@ function renderPreview(player, nextBlock) {
 
 // Modify getCurrentBlock to generate both falling and preview blocks
 function getCurrentBlock(player) {
-    const { fallingBlock,currentBlock, tetrisArray ,blockOrientation} = players[player];
+    const { fallingBlock, currentBlock, tetrisArray, blockOrientation } = players[player];
     const blocks = [block, lblock, sblock, tblock, iblock, jblock, zblock];
     const randomIndex = Math.floor(Math.random() * blocks.length);
     const newBlock = blocks[randomIndex];
@@ -279,23 +278,22 @@ function getCurrentBlock(player) {
     players[player].fallingBlock = newBlock;
     console.log('fallingBlock before assignment:', players[player].fallingBlock);
 
-    //check tetris array.
+    // Check tetris array.
     const canFit = newBlock.every(([row, col]) => tetrisArray[row][col] !== 2);
-    
-    //continue game
+
+    // Continue game
     if (canFit) {
         players[player].currentBlock = newBlock;
         players[player].fallingBlock = newBlock;
         players[player].blockOrientation = 0;
         createBlock(player);
-    //game over
+        // Game over
     } else {
         console.log("Game over!");
-        gameOver= true;
-
+        gameOver = true;
     }
     console.log("this curblock", players[player].currentBlock);
-    createBlock(player); 
+    createBlock(player);
     console.log('fallingBlock after assignment:', players[player].fallingBlock);
 }
 
@@ -311,35 +309,35 @@ function getNextBlock(player) {
 
 function moveBlockLeft(player) {
     const { fallingBlock, tetrisArray } = players[player];
-    //check for collision with end of array or set block
+    // Check for collision with end of array or set block
     const canMoveLeft = fallingBlock.every(([row, col]) => col > 0 && tetrisArray[row][col - 1] !== 2);
-  
+
     if (canMoveLeft) {
-        //check for collision with end of array or set block
+        // Check for collision with end of array or set block
         clearPreviousBlock(player);
         players[player].fallingBlock = fallingBlock.map(([row, col]) => [row, col - 1]);
         renderFalling(player);
     }
-  }
+}
 
 function moveBlockRight(player) {
     const { fallingBlock, tetrisArray } = players[player];
-    //check for collision with end of array or set block
+    // Check for collision with end of array or set block
     const canMoveRight = fallingBlock.every(([row, col]) => col < 9 && tetrisArray[row][col + 1] !== 2);
-    //update piecce and board
+    // Update piece and board
     if (canMoveRight) {
         clearPreviousBlock(player);
         players[player].fallingBlock = fallingBlock.map(([row, col]) => [row, col + 1]);
         renderFalling(player);
     }
-  }
+}
 
 
 function rotateBlock(player) {
-    const { fallingBlock, currentBlock, tetrisArray,blockOrientation} = players[player];
-    
+    const { fallingBlock, currentBlock, tetrisArray, blockOrientation } = players[player];
+
     let offsets;
-    //get block and offset
+    // Get block and offset
     switch (getBlockClass(currentBlock)) {
         case 'lblock':
             switch (blockOrientation) {
@@ -356,46 +354,44 @@ function rotateBlock(player) {
                     players[player].blockOrientation++;
                     break;
                 case 3:
-                    offsets = [[-1, 1], [0, 0], [1, -1], [2, 0]]; 
+                    offsets = [[-1, 1], [0, 0], [1, -1], [2, 0]];
                     players[player].blockOrientation = 0;
                     break;
-                }
+            }
             break;
         default:
             return;
-      }
-    
-      // Calculate the new rotated positions
-      const newPositions = fallingBlock.map(([row, col], index) => {
+    }
+
+    // Calculate the new rotated positions
+    const newPositions = fallingBlock.map(([row, col], index) => {
         const [rowOffset, colOffset] = offsets[index];
         const newRow = row + rowOffset;
         const newCol = col + colOffset;
         return [newRow, newCol];
-      });
-    
-      // check for collisions with new rotated piece
-      const canRotate = newPositions.every(([newRow, newCol]) =>
+    });
+
+    // Check for collisions with new rotated piece
+    const canRotate = newPositions.every(([newRow, newCol]) =>
         newRow >= 0 &&
         newRow < tetrisArray.length &&
         newCol >= 0 &&
         newCol < tetrisArray[0].length &&
         tetrisArray[newRow][newCol] !== 2
-      );
-      //apply offset and render
-      if (canRotate) {
+    );
+    // Apply offset and render
+    if (canRotate) {
         clearPreviousBlock(player);
         players[player].fallingBlock = newPositions;
         renderFalling(player);
-      }
+    }
 }
 
-
-  //check arrow keys for player 1 movement
+// Check arrow keys for player 1 movement
 function handlePlayer1Movement(event) {
     if (event.key === 'a') {
         moveBlockLeft(player1);
-        } 
-    else if (event.key === 'd') {
+    } else if (event.key === 'd') {
         moveBlockRight(player1);
     }
 }
@@ -403,11 +399,9 @@ function handlePlayer1Movement(event) {
 function handlePlayer2Movement(event) {
     if (event.key === 'ArrowLeft') {
         moveBlockLeft(player2);
-    }
-    else if (event.key === 'ArrowRight') {
+    } else if (event.key === 'ArrowRight') {
         moveBlockRight(player2);
-    }
-    else if (event.key === 'ArrowUp') {
+    } else if (event.key === 'ArrowUp') {
         rotateBlock(player2);
     }
 }
@@ -421,22 +415,23 @@ function updateScore(points) {
     scoreDisplay.textContent = score;
 }
 
-// Initialize arrays, grids, and start falling for both players
+// Event listener for game start
 document.getElementById('start-button').addEventListener('click', () => {
-setArray(player1);
-setArray(player2);
-createGrid(player1);
-createGrid(player2);
-getCurrentBlock(player1);
-getCurrentBlock(player2);
-getNextBlock(player1);
-getNextBlock(player2);
-startFalling(player1);
-startFalling(player2);
-//event listeners for movement
-document.addEventListener('keydown', handlePlayer1Movement);
-document.addEventListener('keydown', handlePlayer2Movement);
-document.getElementById('start-overlay').classList.add('hidden');
+    setArray(player1);
+    setArray(player2);
+    createGrid(player1);
+    createGrid(player2);
+    getCurrentBlock(player1);
+    getCurrentBlock(player2);
+    getNextBlock(player1);
+    getNextBlock(player2);
+    startFalling(player1);
+    startFalling(player2);
+    // Event listeners for movement
+    document.addEventListener('keydown', handlePlayer1Movement);
+    document.addEventListener('keydown', handlePlayer2Movement);
+    document.getElementById('start-overlay').classList.add('hidden');
 });
+
 
 
