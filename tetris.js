@@ -422,6 +422,7 @@ function updateScore(points) {
 }
 
 // Initialize arrays, grids, and start falling for both players
+document.getElementById('start-button').addEventListener('click', () => {
 setArray(player1);
 setArray(player2);
 createGrid(player1);
@@ -435,4 +436,7 @@ startFalling(player2);
 //event listeners for movement
 document.addEventListener('keydown', handlePlayer1Movement);
 document.addEventListener('keydown', handlePlayer2Movement);
+document.getElementById('start-overlay').classList.add('hidden');
+});
+
 
