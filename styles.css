@@ -45,6 +45,16 @@
   background-color: rgba(255, 255, 255, 0.6);
 }
 
+.start-button {
+  background-color: #ff6b6b;
+  color: #fff;
+  padding: 15px 30px;
+  font-size: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
 
 /* Updated CSS for a typical Tetris layout */
