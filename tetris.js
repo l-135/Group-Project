@@ -6,17 +6,6 @@ const board1 = document.getElementById('board1');
 const board2 = document.getElementById('board2');
 let gameOver = false;
 
-//bloctypes for array
-const emptyCell = 0;
-const fallingCell = 1;
-const bCell = 2;
-const lCell = 3;
-const sCell = 4;
-const tCell = 5;
-const iCell = 6;
-const jcell = 7;
-const zcell = 8;
-
 // Player objects
 const players = {
     1: {
@@ -80,12 +69,12 @@ function createBlock(player) {
 
 // Updates array as piece is falling on board 1 = falling block, 2 = set block
 function updateArray(player, isSettingBlock = false) {
-    const { tetrisArray, fallingBlock } = players[player];
+    const { tetrisArray, fallingBlock, currentBlock } = players[player];
 
     // Clear the previous fallingBlock positions in the tetrisArray
     tetrisArray.forEach((row, i) =>
-        row.forEach((_, j) => {
-            if (tetrisArray[i][j] == 1) {
+        row.forEach((cell, j) => {
+            if (cell === 1) {
                 tetrisArray[i][j] = 0;
             }
         })
@@ -93,10 +82,14 @@ function updateArray(player, isSettingBlock = false) {
 
     // Update the tetrisArray with the fallingBlock positions (1) or set block positions (2)
     fallingBlock.forEach(([row, col]) => {
-        tetrisArray[row][col] = isSettingBlock ? 2 : 1;
+        if (isSettingBlock){
+            tetrisArray[row][col] = getBlockClass(currentBlock);
+        }
+        else {
+            tetrisArray[row][col] = 1;
+        }
     });
 
-    console.log("Player 1 Tetris Array:", JSON.stringify(players[player1]));
 }
 
 function startFalling(player) {
@@ -115,8 +108,8 @@ function startFalling(player) {
             return false;
         }
 
-        // Check if a set block is found
-        if (tetrisArray[newRow][newCol] !== emptyCell && tetrisArray[newRow][newCol] !== fallingCell) {
+        // Check if a set block (2) is found
+        if (tetrisArray[newRow][newCol] !== 0 && tetrisArray[newRow][newCol] !== 1) {
             return false;
         }
 
@@ -167,7 +160,7 @@ function pushDown(player) {
     const { tetrisArray } = players[player];
     let newPositions = fallingBlock.map(([row, col]) => [row + 1, col]);
     const canMoveDown = newPositions.every(([newRow, newCol]) => {
-        if (newRow >= tetrisArray.length || tetrisArray[newRow][newCol] === 2) {
+        if (newRow >= tetrisArray.length || (tetrisArray[newRow][newCol] !== 0 && tetrisArray[newRow][newCol] !== 1)) {
             onlyCurrentPlayer = false;
             return false;
         }
@@ -181,10 +174,17 @@ function pushDown(player) {
         updateArray(player);
         renderFalling(player);
     }
+    //set block
+    else{
+    updateArray(player, true);
+    checkLineBreak(player);
+    players[player].fallingBlock = null;
+    getCurrentBlock(player);
+    }
 }
 
-// Clears falling block from screen
 
+// Clears falling block from screen
 function clearPreviousBlock(player) {
     const { fallingBlock } = players[player];
 
@@ -223,7 +223,7 @@ function checkLineBreak(player){
     const {tetrisArray} = players[player];
     for (let i = tetrisArray.length - 1; i >= 0; i--) {
         //checks if each cell is occupied
-        const isLineBreak = tetrisArray[i].every((cell) => cell != emptyCell && cell != fallingCell);
+        const isLineBreak = tetrisArray[i].every((cell) => cell !== 0 && cell !== 1);
 
         if (isLineBreak) {
             // Remove the full row
@@ -239,7 +239,7 @@ function checkLineBreak(player){
 }
 
 function updateBoard(player){
-    const { tetrisArray, board } = players[player];
+    const { tetrisArray, board, } = players[player];
     // Clear current board
     board.innerHTML = '';
 
@@ -248,41 +248,13 @@ function updateBoard(player){
         for (let j = 0; j < col; j++) {
             const cell = document.createElement('div');
             cell.classList.add('grid');
-            cell.id = player + '-' + i + '-' + j;
-    
-            switch (tetrisArray[i][j]) {
-                case bCell:
-                    cell.classList.remove('grid');
-                    cell.classList.add('block');
-                    break;
-                case lCell:
-                    cell.classList.remove('grid');
-                    cell.classList.add('lblock');
-                    break;
-                case sCell:
-                    cell.classList.remove('grid');
-                    cell.classList.add('sblock');
-                    break;
-                case tCell:
-                    cell.classList.remove('grid');
-                    cell.classList.add('tblock');
-                    break;
-                case iCell:
-                    cell.classList.remove('grid');
-                    cell.classList.add('iblock');
-                    break;
-                case jcell:
-                    cell.classList.remove('grid');
-                    cell.classList.add('jblock');
-                    break;
-                case zcell:
-                    cell.classList.remove('grid');
-                    cell.classList.add('zblock');
-                    break;
-                default:
-                    break;
+            cell.id = `${player}-${i}-${j}`;
+            //checks array to get previous block classes
+            const blockClass = tetrisArray[i][j];
+            if (blockClass !== 0 && blockClass !== 1) {
+                cell.classList.remove('grid');
+                cell.classList.add(blockClass);
             }
-    
             board.appendChild(cell);
         }
     }
@@ -384,14 +356,12 @@ function getCurrentBlock(player) {
     const blocks = [block, lblock, sblock, tblock, iblock, jblock, zblock];
     const randomIndex = Math.floor(Math.random() * blocks.length);
     const newBlock = blocks[randomIndex];
-    console.log('newBlock:', newBlock);
 
     players[player].currentBlock = newBlock;
     players[player].fallingBlock = newBlock;
-    console.log('fallingBlock before assignment:', players[player].fallingBlock);
 
     // Check tetris array.
-    const canFit = newBlock.every(([row, col]) => tetrisArray[row][col] !== 2);
+    const canFit = newBlock.every(([row, col]) => tetrisArray[row][col] === 0 || tetrisArray[row][col] === 1);
 
     // Continue game
     if (canFit) {
@@ -404,9 +374,7 @@ function getCurrentBlock(player) {
         console.log("Game over!");
         gameOver = true;
     }
-    console.log("this curblock", players[player].currentBlock);
     createBlock(player);
-    console.log('fallingBlock after assignment:', players[player].fallingBlock);
 }
 
 // Modify getNextBlock to generate a new preview block
@@ -422,7 +390,7 @@ function getNextBlock(player) {
 function moveBlockLeft(player) {
     const { fallingBlock, tetrisArray } = players[player];
     // Check for collision with end of array or set block
-    const canMoveLeft = fallingBlock.every(([row, col]) => col > 0 && tetrisArray[row][col - 1] !== 2);
+    const canMoveLeft = fallingBlock.every(([row, col]) => col > 0 && (tetrisArray[row][col - 1] === 0 || tetrisArray[row][col - 1] === 1));
 
     if (canMoveLeft) {
         // Check for collision with end of array or set block
@@ -435,7 +403,7 @@ function moveBlockLeft(player) {
 function moveBlockRight(player) {
     const { fallingBlock, tetrisArray } = players[player];
     // Check for collision with end of array or set block
-    const canMoveRight = fallingBlock.every(([row, col]) => col < 9 && tetrisArray[row][col + 1] !== 2);
+    const canMoveRight = fallingBlock.every(([row, col]) => col < 9 && (tetrisArray[row][col + 1] === 0 || tetrisArray[row][col + 1] === 1));
     // Update piece and board
     if (canMoveRight) {
         clearPreviousBlock(player);
@@ -461,11 +429,9 @@ function rotateBlock(player) {
                     break;
                 case 2:
                     offsets = [[-1, -1], [0, 0], [1, 1], [0, 2]];
-                    players[player].blockOrientation++;
                     break;
                 case 3:
                     offsets = [[-1, 1], [0, 0], [1, -1], [2, 0]]; 
-                    players[player].blockOrientation = 0;
                     break;
             }
             break;
@@ -565,12 +531,13 @@ function rotateBlock(player) {
         return [newRow, newCol];
     });
     
+    //check if rotatin doesnt cause collisions
     const canRotate = newPositions.every(([newRow, newCol]) =>
         newRow >= 0 &&
         newRow < tetrisArray.length &&
         newCol >= 0 &&
         newCol < tetrisArray[0].length &&
-        tetrisArray[newRow][newCol] !== 2
+        (tetrisArray[newRow][newCol] === 0 || tetrisArray[newRow][newCol] === 1)
     );
     
     if (canRotate) {
