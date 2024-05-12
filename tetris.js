@@ -14,7 +14,8 @@ const players = {
         currentBlock: null,
         fallingBlock: null,
         nextBlock: null,
-        blockOrientation: 0
+        blockOrientation: 0,
+        attackScore: 0
     },
     2: {
         board: board2,
@@ -22,7 +23,8 @@ const players = {
         currentBlock: null,
         fallingBlock: null,
         nextBlock: null,
-        blockOrientation: 0
+        blockOrientation: 0,
+        attackScore: 0
     }
 };
 
@@ -220,11 +222,11 @@ function renderFalling(player) {
 }
 
 function checkLineBreak(player){
-    const {tetrisArray} = players[player];
+    const {tetrisArray, attackScore} = players[player];
     linesCleared =0;
     for (let i = tetrisArray.length - 1; i >= 0; i--) {
         //checks if each cell is occupied
-        const isLineBreak = tetrisArray[i].every((cell) => cell !== 0 && cell !== 1);
+        const isLineBreak = tetrisArray[i].every((cell) => cell !== 0 && cell !== 1 && cell !== 'attackblock');
 
         if (isLineBreak) {
             // Remove the full each element from row
@@ -239,6 +241,10 @@ function checkLineBreak(player){
     
     // Update the game board if any lines were cleared
     if (linesCleared > 0) {
+        console.log("lineBroke!")
+        console.log(`Player ${player} tetrisArray:`);
+        console.log(JSON.stringify(players[player].tetrisArray));
+        players[player].attackScore += linesCleared;
         updateBoard(player);
     }
     
@@ -248,6 +254,8 @@ function updateBoard(player){
     const { tetrisArray, board, } = players[player];
     // Clear current board
     board.innerHTML = '';
+    console.log('Updating board with tetrisArray:', JSON.stringify(tetrisArray));
+
 
     // Redraw the game board based on the updated tetrisArray
     for (let i = 0; i < row; i++) {
@@ -257,6 +265,8 @@ function updateBoard(player){
             cell.id = `${player}-${i}-${j}`;
             //checks array to get previous block classes
             const blockClass = tetrisArray[i][j];
+            console.log(`Cell (${i}, ${j}) - blockClass: ${blockClass}`);
+
             if (blockClass !== 0 && blockClass !== 1) {
                 cell.classList.remove('grid');
                 cell.classList.add(blockClass);
@@ -264,7 +274,28 @@ function updateBoard(player){
             board.appendChild(cell);
         }
     }
-}   
+}  
+
+function addAttackLine(player) {
+    const { tetrisArray } = players[player];
+    //check if blocks in first row
+    const topRowHasBlocks = tetrisArray[0].some((cell) => cell !== 0 && cell !==1);
+    if (topRowHasBlocks) {
+        // If there are blocks in the top row, end the game
+        gameOver = true;
+    } 
+    else {
+
+        // Remove the top row
+        tetrisArray.shift();
+
+        // Add a new row of blocks at the bottom
+        const attackLine = new Array(col).fill('attackblock');
+        tetrisArray.push(attackLine);
+
+        updateBoard(player);
+    }
+}
 
 function getBlockClass(shape) {
     if (shape === block) {
@@ -563,20 +594,32 @@ function rotateBlock(player) {
 function handlePlayer1Movement(event) {
     if (event.key === 'a') {
         moveBlockLeft(player1);
-    } else if (event.key === 'd') {
+    }
+    if (event.key === 'd') {
         moveBlockRight(player1);
-    } else if (event.key === 's') { // Add 's' key for pushing down for Player 1
+    }
+    if (event.key === 's') { // Add 's' key for pushing down for Player 1
         pushDown(player1);
+    }
+    if (event.key === 'c') {
+        addAttackLine(player2);
+        players[player1].attackScore -= 5; 
     }
 }
 
 function handlePlayer2Movement(event) {
     if (event.key === 'ArrowLeft') {
         moveBlockLeft(player2);
-    } else if (event.key === 'ArrowRight') {
+    }
+    if (event.key === 'ArrowRight') {
         moveBlockRight(player2);
-    } else if (event.key === 'ArrowDown') { // Add 'ArrowDown' key for pushing down for Player 2
+    }
+    if (event.key === 'ArrowDown') { // Add 'ArrowDown' key for pushing down for Player 2
         pushDown(player2);
+    }
+    if (event.key === '0' && players[player2].attackScore >= 5) {
+        addAttackLine(player1);
+        players[player2].attackScore -= 5; 
     }
 }
 
