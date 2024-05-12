@@ -423,9 +423,11 @@ function rotateBlock(player) {
             switch (blockOrientation) {
                 case 0:
                     offsets = [[1, 1], [0, 0], [-1, -1], [0, -2]];
+                    
                     break;
                 case 1:
                     offsets = [[1, -1], [0, 0], [-1, 1], [-2, 0]];
+                    
                     break;
                 case 2:
                     offsets = [[-1, -1], [0, 0], [1, 1], [0, 2]];
