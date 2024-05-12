@@ -221,6 +221,22 @@ function renderFalling(player) {
     getNextBlock(player);
 }
 
+function updateScore(player)
+{
+    const { attackScore } = players[player];
+    const scoreElement = document.getElementById(`score${player}`);
+    scoreElement.textContent = attackScore; //update the score displayed in Html
+
+if (attackScore >= 5)
+    {
+        scoreElement.syle.color = 'red';
+    }
+    else
+    {
+        scoreElement.style.color = ''; // Reset color if attackScore is less than 5
+    }
+}
+
 function checkLineBreak(player){
     const {tetrisArray, attackScore} = players[player];
     linesCleared =0;
@@ -245,6 +261,7 @@ function checkLineBreak(player){
         console.log(`Player ${player} tetrisArray:`);
         console.log(JSON.stringify(players[player].tetrisArray));
         players[player].attackScore += linesCleared;
+        updateScore(player);
         updateBoard(player);
     }
     
@@ -359,6 +376,74 @@ const iblock = [
 
 const jblock = [
     [0, 3],
+    [1, 3],
+    [1, 4],
+    [1, 5]
+];
+
+const zblock = [
+    [0, 5],
+    [0, 4],
+    [1, 4],
+    [1, 3]
+];
+
+// Function to render the next block in the preview container
+function renderPreview(player, nextBlock) {
+    const previewElement = document.getElementById(`preview${player}`);
+    previewElement.innerHTML = ''; // Clear previous preview content
+
+    [1, 3],
+    [1, 4],
+    [1, 5]
+];
+
+const zblock = [
+    [0, 5],
+    [0, 4],
+    [1, 4],
+    [1, 3]
+];
+
+// Function to render the next block in the preview container
+function renderPreview(player, nextBlock) {
+    const previewElement = document.getElementById(`preview${player}`);
+    previewElement.innerHTML = ''; // Clear previous preview content
+
+    [1, 3],
+    [1, 4],
+    [1, 5]
+];
+
+const zblock = [
+    [0, 5],
+    [0, 4],
+    [1, 4],
+    [1, 3]
+];
+
+// Function to render the next block in the preview container
+function renderPreview(player, nextBlock) {
+    const previewElement = document.getElementById(`preview${player}`);
+    previewElement.innerHTML = ''; // Clear previous preview content
+
+    [1, 3],
+    [1, 4],
+    [1, 5]
+];
+
+const zblock = [
+    [0, 5],
+    [0, 4],
+    [1, 4],
+    [1, 3]
+];
+
+// Function to render the next block in the preview container
+function renderPreview(player, nextBlock) {
+    const previewElement = document.getElementById(`preview${player}`);
+    previewElement.innerHTML = ''; // Clear previous preview content
+
     [1, 3],
     [1, 4],
     [1, 5]
@@ -589,71 +674,3 @@ function rotateBlock(player) {
         renderFalling(player);
     }
 }
-
-// Check arrow keys for player 1 movement
-function handlePlayer1Movement(event) {
-    if (event.key === 'a') {
-        moveBlockLeft(player1);
-    }
-    if (event.key === 'd') {
-        moveBlockRight(player1);
-    }
-    if (event.key === 's') { // Add 's' key for pushing down for Player 1
-        pushDown(player1);
-    }
-    if (event.key === 'c') {
-        addAttackLine(player2);
-        players[player1].attackScore -= 5; 
-    }
-}
-
-function handlePlayer2Movement(event) {
-    if (event.key === 'ArrowLeft') {
-        moveBlockLeft(player2);
-    }
-    if (event.key === 'ArrowRight') {
-        moveBlockRight(player2);
-    }
-    if (event.key === 'ArrowDown') { // Add 'ArrowDown' key for pushing down for Player 2
-        pushDown(player2);
-    }
-    if (event.key === '0' && players[player2].attackScore >= 5) {
-        addAttackLine(player1);
-        players[player2].attackScore -= 5; 
-    }
-}
-
-// Event listener for game start
-document.getElementById('start-button').addEventListener('click', () => {
-    setArray(player1);
-    setArray(player2);
-    createGrid(player1);
-    createGrid(player2);
-    getCurrentBlock(player1);
-    getCurrentBlock(player2);
-    getNextBlock(player1);
-    getNextBlock(player2);
-    startFalling(player1);
-    startFalling(player2);
-    // Add event listeners for player 1 and player 2 movement, rotation, and pushing down
-    document.addEventListener('keydown', handlePlayer1Movement);
-    document.addEventListener('keydown', handlePlayer1Rotation);
-    document.addEventListener('keydown', handlePlayer2Movement);
-    document.addEventListener('keydown', handlePlayer2Rotation);
-    document.getElementById('start-overlay').classList.add('hidden');
-});
-
-// Function to handle rotation for Player 1
-function handlePlayer1Rotation(event) {
-    if (event.key === 'w') { // Rotate clockwise for Player 1
-        rotateBlock(player1);
-    }
-}
-
-// Function to handle rotation for Player 2
-function handlePlayer2Rotation(event) {
-    if (event.key === 'ArrowUp') { // Rotate clockwise for Player 2
-        rotateBlock(player2);
-    } 
-}
-
