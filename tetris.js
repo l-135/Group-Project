@@ -293,19 +293,19 @@ function getBlockClass(shape) {
         return 'block'; // Apply the 'block' class
     }
 
-    const shapeString = JSON.stringify(shape.sort());
+    const shapeString = JSON.stringify(shape);
 
-    if (shapeString === JSON.stringify(lblock.sort())) {
+    if (shapeString === JSON.stringify(lblock)) {
         return 'lblock';
-    } else if (shapeString === JSON.stringify(sblock.sort())) {
+    } else if (shapeString === JSON.stringify(sblock)) {
         return 'sblock';
-    } else if (shapeString === JSON.stringify(tblock.sort())) {
+    } else if (shapeString === JSON.stringify(tblock)) {
         return 'tblock';
-    } else if (shapeString === JSON.stringify(iblock.sort())) {
+    } else if (shapeString === JSON.stringify(iblock)) {
         return 'iblock';
-    } else if (shapeString === JSON.stringify(jblock.sort())) {
+    } else if (shapeString === JSON.stringify(jblock)) {
         return 'jblock';
-    } else if (shapeString === JSON.stringify(zblock.sort())) {
+    } else if (shapeString === JSON.stringify(zblock)) {
         return 'zblock';
     } else {
         return 'block'; // Default class
@@ -455,11 +455,9 @@ function rotateBlock(player) {
             switch (blockOrientation) {
                 case 0:
                     offsets = [[1, 1], [0, 0], [-1, -1], [0, -2]];
-                    players[player].blockOrientation++;
                     break;
                 case 1:
                     offsets = [[1, -1], [0, 0], [-1, 1], [-2, 0]];
-                    players[player].blockOrientation++;
                     break;
                 case 2:
                     offsets = [[-1, -1], [0, 0], [1, 1], [0, 2]];
@@ -472,44 +470,36 @@ function rotateBlock(player) {
             }
             break;
         case 'sblock':
-            // Rotation logic for S-block fix
+            // Rotation logic for S-block
             switch (blockOrientation) {
                 case 0:
                     offsets = [[0, 2], [1, 1], [0, 0], [1, -1]];
-                    players[player].blockOrientation++;
                     break;
                 case 1:
                     offsets = [[2, 0], [1, -1], [0, 0], [-1, -1]];
-                    players[player].blockOrientation++;
                     break;
                 case 2:
                     offsets = [[0, -2], [-1, -1], [0, 0], [-1, 1]];
-                    players[player].blockOrientation++;
                     break;
                 case 3:
                     offsets = [[-2, 0], [-1, 1], [0, 0], [1, 1]];
-                    players[player].blockOrientation = 0;
                     break;
             }
             break;
         case 'tblock':
-            // Rotation logic for T-block fixing
+            // Rotation logic for T-block 
             switch (blockOrientation) {
                 case 0:
                     offsets = [[1, 1], [-1, 1], [0, 0], [1, -1]];
-                    players[player].blockOrientation++;
                     break;
                 case 1:
                     offsets = [[1, -1], [1, 1], [0, 0], [-1, -1]];
-                    players[player].blockOrientation++;
                     break;
                 case 2:
                     offsets = [[-1, -1], [1, -1], [0, 0], [-1, 1]];
-                    players[player].blockOrientation++;
                     break;
                 case 3:
                     offsets = [[-1, 1], [-1, -1], [0, 0], [1, 1]];
-                    players[player].blockOrientation = 0;
                     break;
             }
             break;
@@ -518,19 +508,15 @@ function rotateBlock(player) {
             switch (blockOrientation) {
                 case 0:
                     offsets = [[-1, 1], [0, 0], [1, -1], [2, -2]];
-                    players[player].blockOrientation++;
                     break;
                 case 1:
                     offsets = [[1, 1], [0, 0], [-1, -1], [-2, -2]];
-                    players[player].blockOrientation++;
                     break;
                 case 2:
-                    offsets = [[1, -1], [0, 0], [1, 1], [-2, 2]];
-                    players[player].blockOrientation++;
+                    offsets = [[1, -1], [0, 0], [-1, 1], [-2, 2]];
                     break;
                 case 3:
                     offsets = [[-1, -1], [0, 0], [1, 1], [2, 2]];
-                    players[player].blockOrientation = 0;
                     break;
             }
             break;
@@ -539,19 +525,15 @@ function rotateBlock(player) {
             switch (blockOrientation) {
                 case 0:
                     offsets = [[0, 2], [-1, 1], [0, 0], [1, -1]];
-                    players[player].blockOrientation++;
                     break;
                 case 1:
                     offsets = [[2, 0], [1, 1], [0, 0], [-1, -1]];
-                    players[player].blockOrientation++;
                     break;
                 case 2:
                     offsets = [[0, -2], [1, -1], [0, 0], [-1, 1]];
-                    players[player].blockOrientation++;
                     break;
                 case 3:
                     offsets = [[-2, 0], [-1, -1], [0, 0], [1, 1]];
-                    players[player].blockOrientation = 0;
                     break;
             }
             break;
@@ -560,20 +542,16 @@ function rotateBlock(player) {
             switch (blockOrientation) {
                 case 0:
                     offsets = [[2, 0], [1, 1], [0, 0], [-1, 1]];
-                    players[player].blockOrientation++;
                     break;
                 case 1:
                     offsets = [[0, -2], [1, -1], [0, 0], [1, 1]];
-                    players[player].blockOrientation++;
                     break;
-                case 0:
-                    offsets = [[-2, 0], [-1, 1], [0, 0], [1, -1]];
-                    players[player].blockOrientation++;
+                case 2:
+                case 2:
+                    offsets = [[-2, 0], [-1, -1], [0, 0], [1, -1],];
                     break;
-                case 1:
-                    offsets = [[2, 0], [-1, 1], [0, 0], [-1, -1]];
-                    players[player].blockOrientation = 0;
-                    break;
+                case 3:
+                    offsets = [[0, 2], [-1, 1], [0, 0], [-1, -1]];
             }
             break;
         default:
@@ -596,6 +574,10 @@ function rotateBlock(player) {
     );
     
     if (canRotate) {
+        players[player].blockOrientation++;
+        if (players[player].blockOrientation > 3){
+            players[player].blockOrientation = 0;
+        }
         clearPreviousBlock(player);
         players[player].fallingBlock = newPositions;
         renderFalling(player);
