@@ -221,21 +221,27 @@ function renderFalling(player) {
 
 function checkLineBreak(player){
     const {tetrisArray} = players[player];
+    linesCleared =0;
     for (let i = tetrisArray.length - 1; i >= 0; i--) {
         //checks if each cell is occupied
         const isLineBreak = tetrisArray[i].every((cell) => cell !== 0 && cell !== 1);
 
         if (isLineBreak) {
-            // Remove the full row
+            // Remove the full each element from row
             tetrisArray.splice(i, 1);
-
-            // Add a new empty line at the top
-            tetrisArray.unshift(new Array(col).fill(0));
-
-            // Update the game board
-            updateBoard(player);
+            linesCleared++;
         }
     }
+    // Add a new empty array for each line cleared
+    for (let i = 0; i < linesCleared; i++) {
+        tetrisArray.unshift(new Array(col).fill(0));
+    }
+    
+    // Update the game board if any lines were cleared
+    if (linesCleared > 0) {
+        updateBoard(player);
+    }
+    
 }
 
 function updateBoard(player){
