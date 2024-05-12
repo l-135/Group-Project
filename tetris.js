@@ -237,6 +237,8 @@ if (attackScore >= 5)
     }
 }
 
+
+
 function checkLineBreak(player){
     const {tetrisArray, attackScore} = players[player];
     linesCleared =0;
@@ -261,11 +263,14 @@ function checkLineBreak(player){
         console.log(`Player ${player} tetrisArray:`);
         console.log(JSON.stringify(players[player].tetrisArray));
         players[player].attackScore += linesCleared;
-        updateScore(player);
+        updateScore(player);//add score
         updateBoard(player);
     }
     
 }
+
+
+
 
 function updateBoard(player){
     const { tetrisArray, board, } = players[player];
