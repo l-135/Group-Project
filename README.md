@@ -12,9 +12,9 @@ To play the game copy the link into a new tab.
 
 1.Press the Start button to start playing.
 
-2. Use the left side of the keyboard for player 1. 
+2.Use the left side of the keyboard for player 1. 
 
-3. Use the right side of the keyboard for player 2.
+3.Use the right side of the keyboard for player 2.
 
 4.Goal is to last the longest by not leting your blocks reach the top of the board.
 
