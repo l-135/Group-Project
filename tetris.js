@@ -5,6 +5,9 @@ const player2 = 2;
 const board1 = document.getElementById('board1');
 const board2 = document.getElementById('board2');
 let gameOver = false;
+const setSound = new Audio('sounds/setSound.wav');
+const attackSound = new Audio('sounds/attackSound.mp3');
+const clearSound = new Audio('sounds/clearSound.mp3');
 
 // Player objects
 const players = {
@@ -97,6 +100,7 @@ function updateArray(player, isSettingBlock = false) {
 function startFalling(player) {
     if (gameOver) {
         return;
+        //endgame();
     }
     const { tetrisArray, fallingBlock } = players[player];
 
@@ -132,6 +136,9 @@ function startFalling(player) {
         setTimeout(() => startFalling(player), 500);
     } else {
         // Block is set and cannot move
+
+        setSound.currentTime = 0; 
+        setSound.play();
         // Update the tetrisArray with the fallingBlock position 2
         updateArray(player, true);
 
@@ -154,6 +161,7 @@ function startFalling(player) {
 function pushDown(player) {
     if (gameOver) {
         return;
+        //endgame();
     }
     const { fallingBlock } = players[player];
 
@@ -180,6 +188,8 @@ function pushDown(player) {
     }
     //set block
     else{
+    setSound.currentTime = 0; 
+    setSound.play();
     updateArray(player, true);
     checkLineBreak(player);
     players[player].fallingBlock = null;
@@ -241,9 +251,8 @@ function checkLineBreak(player){
     
     // Update the game board if any lines were cleared
     if (linesCleared > 0) {
-        console.log("lineBroke!")
-        console.log(`Player ${player} tetrisArray:`);
-        console.log(JSON.stringify(players[player].tetrisArray));
+        clearSound.currentTime = 0; 
+        clearSound.play();
         players[player].attackScore += linesCleared;
         //updateScore(player);
         updateBoard(player);
@@ -279,11 +288,16 @@ function updateBoard(player){
 
 function addAttackLine(player) {
     const { tetrisArray } = players[player];
+   
+    attackSound.currentTime = 0; 
+    attackSound.play();
+
     //check if blocks in first row
     const topRowHasBlocks = tetrisArray[0].some((cell) => cell !== 0 && cell !==1);
     if (topRowHasBlocks) {
         // If there are blocks in the top row, end the game
         gameOver = true;
+        //endGame();
     } 
     else {
 
@@ -610,12 +624,15 @@ function handlePlayer1Movement(event) {
 function handlePlayer2Movement(event) {
     if (event.key === 'ArrowLeft') {
         moveBlockLeft(player2);
+        event.preventDefault();
     }
     if (event.key === 'ArrowRight') {
         moveBlockRight(player2);
+        event.preventDefault();
     }
     if (event.key === 'ArrowDown') { // Add 'ArrowDown' key for pushing down for Player 2
         pushDown(player2);
+        event.preventDefault();
     }
     if (event.key === '0' && players[player2].attackScore >= 5) {
         addAttackLine(player1);
@@ -654,6 +671,7 @@ function handlePlayer1Rotation(event) {
 function handlePlayer2Rotation(event) {
     if (event.key === 'ArrowUp') { // Rotate clockwise for Player 2
         rotateBlock(player2);
+        event.preventDefault();
     } 
 }
 
