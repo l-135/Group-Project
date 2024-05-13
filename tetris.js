@@ -311,6 +311,7 @@ function addAttackLine(player) {
         tetrisArray.push(attackLine);
 
         updateBoard(player);
+        checkGameOver(player);
     }
 }
 
@@ -322,17 +323,12 @@ function endGame(winner) {
     document.getElementById('game-over-overlay').classList.remove('hidden');
 }
 
-// Variable to track if game over condition has already been triggered
-let gameOverTriggered = false;
-
 function checkGameOver(player) {
-    console.log("Checking game over...");
     const { tetrisArray } = players[player];
     const topRowHasBlocks = tetrisArray[0].some(cell => cell !== 0 && cell !== 1);
 
     // Check if the game over condition is met and it hasn't been triggered before
-    if (topRowHasBlocks && !gameOverTriggered) {
-        gameOverTriggered = true; // Set the flag to indicate that game over condition has been triggered
+    if (topRowHasBlocks) {
         endGame(player === 1 ? 2 : 1);
     }
 }
@@ -644,8 +640,6 @@ function handlePlayer1Movement(event) {
     if (event.key === 'c') {
         addAttackLine(player2);
         players[player1].attackScore -= 5; 
-
-        checkGameOver(player1);
     }
 }
 
@@ -665,8 +659,6 @@ function handlePlayer2Movement(event) {
     if (event.key === '0' && players[player2].attackScore >= 5) {
         addAttackLine(player1);
         players[player2].attackScore -= 5; 
-    
-        checkGameOver(player2);
     }
 }
 
