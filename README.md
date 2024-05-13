@@ -6,7 +6,7 @@ There is the deploy.sh that allows the website to be deploy on the browser if th
 To see the files
 git clone https://github.com/l-135/TetrisX2.git
 # Play Game
-To play the game use the link 
+To play the game use the link https://cs.csub.edu/~vfigueroa/TetrisX2/
 # Steps to Play
 To play the game copy the link into a new tab.
 
