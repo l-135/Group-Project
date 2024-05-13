@@ -25,6 +25,8 @@ To play the game copy the link into a new tab.
 7.If it is game over the game will restart itself and you will be taken to the start screen.
 
 8.Restart the game by yourself by refreashing the website.
+
+9.In order to use the attack block, more than 5 lines need to be broken.
 # Player 1
 1. Move to left = a
 2. Move to the right = d
