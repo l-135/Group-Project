@@ -142,6 +142,8 @@ function startFalling(player) {
 
         // Generate a new block 
         getCurrentBlock(player);
+        // Generate a new preview block after rendering the current block
+        getNextBlock(player);
 
         // Start falling for the next block after
         setTimeout(() => startFalling(player), 500);
@@ -182,6 +184,7 @@ function pushDown(player) {
     checkLineBreak(player);
     players[player].fallingBlock = null;
     getCurrentBlock(player);
+    getNextBlock(player);
     }
 }
 
@@ -216,9 +219,6 @@ function renderFalling(player) {
             }
         }
     }
-
-    // Generate a new preview block after rendering the current block
-    getNextBlock(player);
 }
 
 function checkLineBreak(player){
@@ -245,6 +245,7 @@ function checkLineBreak(player){
         console.log(`Player ${player} tetrisArray:`);
         console.log(JSON.stringify(players[player].tetrisArray));
         players[player].attackScore += linesCleared;
+        //updateScore(player);
         updateBoard(player);
     }
     
@@ -389,28 +390,24 @@ function renderPreview(player, nextBlock) {
 
 // Modify getCurrentBlock to generate both falling and preview blocks
 function getCurrentBlock(player) {
-    const { fallingBlock, currentBlock, tetrisArray, blockOrientation } = players[player];
-    const blocks = [block, lblock, sblock, tblock, iblock, jblock, zblock];
-    const randomIndex = Math.floor(Math.random() * blocks.length);
-    const newBlock = blocks[randomIndex];
+    const { fallingBlock, currentBlock, nextBlock, tetrisArray, blockOrientation } = players[player];
 
-    players[player].currentBlock = newBlock;
-    players[player].fallingBlock = newBlock;
+    players[player].currentBlock = nextBlock;
+    players[player].fallingBlock = nextBlock;
 
     // Check tetris array.
-    const canFit = newBlock.every(([row, col]) => tetrisArray[row][col] === 0 || tetrisArray[row][col] === 1);
+    const canFit = nextBlock.every(([row, col]) => tetrisArray[row][col] === 0 || tetrisArray[row][col] === 1);
 
     // Continue game
     if (canFit) {
-        players[player].currentBlock = newBlock;
-        players[player].fallingBlock = newBlock;
         players[player].blockOrientation = 0;
         createBlock(player);
-        // Game over
+        getNextBlock(player);
     } else {
         console.log("Game over!");
         gameOver = true;
     }
+
     createBlock(player);
 }
 
@@ -419,6 +416,9 @@ function getNextBlock(player) {
     const blocks = [block, lblock, sblock, tblock, iblock, jblock, zblock];
     const randomIndex = Math.floor(Math.random() * blocks.length);
     const nextBlock = blocks[randomIndex];
+
+    // Store the generated block in nextBlock
+    players[player].nextBlock = nextBlock;
 
     // Render the next block in the preview container
     renderPreview(player, nextBlock);
@@ -629,10 +629,10 @@ document.getElementById('start-button').addEventListener('click', () => {
     setArray(player2);
     createGrid(player1);
     createGrid(player2);
-    getCurrentBlock(player1);
-    getCurrentBlock(player2);
     getNextBlock(player1);
     getNextBlock(player2);
+    getCurrentBlock(player1);
+    getCurrentBlock(player2);
     startFalling(player1);
     startFalling(player2);
     // Add event listeners for player 1 and player 2 movement, rotation, and pushing down
