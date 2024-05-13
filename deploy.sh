@@ -7,3 +7,5 @@ DEST=~/public_html/TetrisX2
        echo "Copying $i to $DEST"
        cp "$i" $DEST/.
    done
+    echo "Copying sounds folder to $DEST"
+    cp -r "sounds" $DEST/.
