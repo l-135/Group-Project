@@ -26,14 +26,14 @@ To play the game copy the link into a new tab.
 
 8.Restart the game by yourself by refreashing the website.
 # Player 1
-Move to left = a
-Move to the right = d
-Force push down = s
-Rotate = w
-Attack block = c
+1. Move to left = a
+2. Move to the right = d
+3. Force push down = s
+4. Rotate = w
+5. Attack block = c
 # Player 2
-Move to left = left arrow key
-Move to the right = right arrow key
-Force push down = down arrow key
-Rotate = up arrow key
-Attack block = 0 (zero)
+1. Move to left = left arrow key
+2. Move to the right = right arrow key
+3. Force push down = down arrow key
+4. Rotate = up arrow key
+5. Attack block = 0 (zero)
