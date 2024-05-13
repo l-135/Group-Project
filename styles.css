@@ -63,6 +63,30 @@
   transform: scale(1.05);
 }
 
+#game-over-screen {
+position: fixed;
+  top: 0;
+ left: 0;
+  width: 100%;
+ height: 100%;
+   background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+ justify-content: center;
+    align-items: center;
+ }
+
+ .game-over-message {
+     text-align: center;
+     color: white;
+  }
+
+ .hidden {
+     display: none;
+ }
+
+
+
+
 
 /* Neon glow animation */
 @keyframes neon {
@@ -183,7 +207,7 @@ body {
   border: none; /* Remove border */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.3) inset; /* Add soft shadow and glowing effect */
   border-radius: 3px; /* Add border radius for rounded corners */
-background-image: linear-gradient(to bottom right, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.3)); /* Add gradient for depth */
+  background-image: linear-gradient(to bottom right, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.3)); /* Add gradient for depth */
 }
 
 /* Ensure blocks are fully stacked without gaps */

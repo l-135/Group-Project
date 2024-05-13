@@ -100,7 +100,6 @@ function updateArray(player, isSettingBlock = false) {
 function startFalling(player) {
     if (gameOver) {
         return;
-        //endgame();
     }
     const { tetrisArray, fallingBlock } = players[player];
 
@@ -132,6 +131,8 @@ function startFalling(player) {
         updateArray(player);
         renderFalling(player);
 
+        checkGameOver(player); // Call checkGameOver after updating the board
+
         // continue falling
         setTimeout(() => startFalling(player), 500);
     } else {
@@ -161,7 +162,6 @@ function startFalling(player) {
 function pushDown(player) {
     if (gameOver) {
         return;
-        //endgame();
     }
     const { fallingBlock } = players[player];
 
@@ -188,13 +188,15 @@ function pushDown(player) {
     }
     //set block
     else{
-    setSound.currentTime = 0; 
-    setSound.play();
-    updateArray(player, true);
-    checkLineBreak(player);
-    players[player].fallingBlock = null;
-    getCurrentBlock(player);
-    getNextBlock(player);
+        setSound.currentTime = 0; 
+        setSound.play();
+        updateArray(player, true);
+        checkLineBreak(player);
+        players[player].fallingBlock = null;
+        getCurrentBlock(player);
+        getNextBlock(player);
+
+        checkGameOver(player); // Call checkGameOver after updating the board
     }
 }
 
@@ -312,6 +314,29 @@ function addAttackLine(player) {
     }
 }
 
+// Function to handle game over
+function endGame(winner) {
+    gameOver = true;
+    const winnerMessage = document.getElementById('winner-message');
+    winnerMessage.textContent = `Player ${winner} wins!`;
+    document.getElementById('game-over-overlay').classList.remove('hidden');
+}
+
+// Variable to track if game over condition has already been triggered
+let gameOverTriggered = false;
+
+function checkGameOver(player) {
+    console.log("Checking game over...");
+    const { tetrisArray } = players[player];
+    const topRowHasBlocks = tetrisArray[0].some(cell => cell !== 0 && cell !== 1);
+
+    // Check if the game over condition is met and it hasn't been triggered before
+    if (topRowHasBlocks && !gameOverTriggered) {
+        gameOverTriggered = true; // Set the flag to indicate that game over condition has been triggered
+        endGame(player === 1 ? 2 : 1);
+    }
+}
+
 function getBlockClass(shape) {
     if (shape === block) {
         return 'block'; // Apply the 'block' class
@@ -420,6 +445,7 @@ function getCurrentBlock(player) {
     } else {
         console.log("Game over!");
         gameOver = true;
+        endGame(player === 1 ? 2 : 1); // Call endGame() with the winner
     }
 
     createBlock(player);
@@ -618,6 +644,8 @@ function handlePlayer1Movement(event) {
     if (event.key === 'c') {
         addAttackLine(player2);
         players[player1].attackScore -= 5; 
+
+        checkGameOver(player1);
     }
 }
 
@@ -637,6 +665,8 @@ function handlePlayer2Movement(event) {
     if (event.key === '0' && players[player2].attackScore >= 5) {
         addAttackLine(player1);
         players[player2].attackScore -= 5; 
+    
+        checkGameOver(player2);
     }
 }
 
